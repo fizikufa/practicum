@@ -38,6 +38,7 @@ BurgerIngredient.propTypes = propTypes;
 //Используется для того чтобы TS автоматически получил типы которые мы указали через prop-types
 type burgerIngredientsPropTypes = PropTypes.InferProps<typeof propTypes>;
 
+
 function BurgerIngredient(props: burgerIngredientsPropTypes) {
   const [currentTab, setCurrentTab] = useState("one");
 
@@ -58,11 +59,11 @@ function BurgerIngredient(props: burgerIngredientsPropTypes) {
       </div>
 
       {props.dataArray && (
-        <div className={ingredientsStyles.components}>
+        <div className={`${ingredientsStyles.components} custom-scroll`}>
           {props.tabs!.map((tab) => (
             <section key={tab._id}>
               <p className="text text_type_main-medium">{tab.name}</p>
-              <div className={`${ingredientsStyles.item_container} ml-4`}>
+              <div className={ingredientsStyles.item_container}>
                 {props
                   .dataArray!.filter((data) => data.type === tab.type)
                   .map((data) => (

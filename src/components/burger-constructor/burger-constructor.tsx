@@ -2,11 +2,10 @@ import { useEffect } from "react";
 import constructorStyles from "./burger-constructor.module.css";
 import {
   ConstructorElement,
-  DragIcon,  
+  DragIcon,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
-
 
 ///Временно, потом переделаю на использование типа
 const dataPropTypes = PropTypes.shape({
@@ -40,7 +39,6 @@ const propTypes = {
 
 BurgerConstructor.propTypes = propTypes;
 
-
 type burgerConstructorPropTypes = PropTypes.InferProps<typeof propTypes>;
 
 function BurgerConstructor(props: burgerConstructorPropTypes) {
@@ -59,26 +57,24 @@ function BurgerConstructor(props: burgerConstructorPropTypes) {
   return (
     <>
       <div className="mt-25">
-        <div className={constructorStyles.outer_style}>
-          <div className="ml-4 mr-4 mb-4">
-            <ConstructorElement
-              type="top"
-              isLocked={true}
-              text={`${props.dataArray![0].name} (верх)`}
-              price={props.dataArray![0].price}
-              thumbnail={props.dataArray![0].image}
-            />
-          </div>
+        <div className={`${constructorStyles.ingredient} ml-8 mr-8 mb-4`}>
+          <ConstructorElement
+            type="top"
+            isLocked={true}
+            text={`${props.dataArray![0].name} (верх)`}
+            price={props.dataArray![0].price}
+            thumbnail={props.dataArray![0].image}
+          />
         </div>
       </div>
 
-      <div className={constructorStyles.inner_style}>
+      <div className={`${constructorStyles.inner_style} custom-scroll`}>
         {props.dataArray!.map((data, index) => {
           if (data.type !== "bun") {
             return (
               <div
                 key={index}
-                className={`${constructorStyles.ingredient} ml-4 mr-4 mb-4`}
+                className={`${constructorStyles.ingredient} ml-4 mr-6 mb-4`}
               >
                 <DragIcon type="primary" />
 
@@ -94,16 +90,14 @@ function BurgerConstructor(props: burgerConstructorPropTypes) {
         })}
       </div>
 
-      <div className={constructorStyles.outer_style}>
-        <div className="ml-4 mr-4 mt-4">
-          <ConstructorElement
-            type="bottom"
-            isLocked={true}
-            text={`${props.dataArray![props.dataArray!.length - 1].name} (низ)`}
-            price={props.dataArray![props.dataArray!.length - 1].price}
-            thumbnail={props.dataArray![props.dataArray!.length - 1].image}
-          />
-        </div>
+      <div className={`${constructorStyles.ingredient} ml-8 mr-8 mt-4`}>
+        <ConstructorElement
+          type="bottom"
+          isLocked={true}
+          text={`${props.dataArray![0].name} (верх)`}
+          price={props.dataArray![0].price}
+          thumbnail={props.dataArray![0].image}
+        />
       </div>
 
       <div className={`${constructorStyles.cart} mt-10`}>

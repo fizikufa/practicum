@@ -6,11 +6,11 @@ function AppHeader() {
     <header className={headerStyles.header}>
       <nav>
         <ul className={headerStyles.menu}>
-          <li className={`${headerStyles.item_active} ml-5 mr-5 mb-5 mt-5`}>
+          <li className={`${headerStyles.item_active} ml-5 mr-5  `}>
             <BurgerIcon type="primary" />
             <a className="text text_type_main-default ml-2" href='/'>Конструктор</a>
           </li>
-          <li className={`${headerStyles.item} ml-5 mr-5 mb-5 mt-5`}>
+          <li className={`${headerStyles.item} ml-5 mr-5`}>
             <ListIcon type="primary" />
             <a className="text text_type_main-default ml-2" href='/'>Лента заказов</a>
           </li>
@@ -19,7 +19,7 @@ function AppHeader() {
       <Logo />
       <nav>
         <ul className={`${headerStyles.menu} mb-4 mt-4`}>
-        <li className={`${headerStyles.item} ml-5 mr-5 mb-5 mt-5`}>
+        <li className={`${headerStyles.item} ml-5 mr-5`}>
             <ProfileIcon type="primary" />
             <a className="text text_type_main-default ml-2" href='/'>Личный кабинет</a>
           </li>
