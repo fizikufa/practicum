@@ -18,7 +18,7 @@ function BurgerIngredientItem({ingredient,getIngredientCountInOrder}: IBurgerIng
     <div className={`${itemStyles.item} ml-4 mr-5 mb-10 mt-6`} onClick={() => setIsOpen(true)}>
       <img
         className={`${itemStyles.item_image} ml-4 mr-5`}
-        alt="previewImage"
+        alt={ingredient.name}
         src={ingredient.image}
       />
       <div className={`${itemStyles.price} mb-1 mt-1`}>
