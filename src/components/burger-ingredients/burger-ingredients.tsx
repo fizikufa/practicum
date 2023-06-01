@@ -1,56 +1,66 @@
 import ingredientsStyles from "./burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState } from "react";
-import BurgerIngredientItem from "../burger-ingredients-item/burger-ingredients-item";
-import PropTypes from "prop-types";
+import BurgerIngredientItem from "./burger-ingredients-item/burger-ingredients-item";
+import { TIngredient } from "../../utils/types";
 
-const tab = PropTypes.shape({
-  _id: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-});
+const tabsData = [
+  {
+    _id: 0,
+    name: "Булки",
+    type: "bun",
+  },
+  {
+    _id: 1,
+    name: "Соусы",
+    type: "sauce",
+  },
+  {
+    _id: 2,
+    name: "Начинки",
+    type: "main",
+  },
+];
 
-const data = PropTypes.shape({
-  _id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  proteins: PropTypes.number.isRequired,
-  fat: PropTypes.number.isRequired,
-  carbohydrates: PropTypes.number.isRequired,
-  calories: PropTypes.number.isRequired,
-  price: PropTypes.number.isRequired,
-  image: PropTypes.string.isRequired,
-  image_mobile: PropTypes.string.isRequired,
-  image_large: PropTypes.string.isRequired,
-  __v: PropTypes.number.isRequired,
-});
+interface IBurgerIngredientProps {
+  ingredients: TIngredient[];
+  getIngredientCountInOrder: (ingredient: TIngredient) => number;
+}
 
-const propTypes = {
-  dataArray: PropTypes.arrayOf(data.isRequired),
-  data,
-  tabs: PropTypes.arrayOf(tab.isRequired),
-  tab,
-};
+function BurgerIngredient({ingredients, getIngredientCountInOrder}: IBurgerIngredientProps) {
+  const [currentTab, setCurrentTab] = useState("bun");
 
-BurgerIngredient.propTypes = propTypes;
+  let ingridientLenght=ingredients.length;
+  let bunLenght=ingredients.filter((ingredient) => ingredient.type === "bun").length;
+  let sauceLenght=ingredients.filter((ingredient) => ingredient.type === "sauce").length;
+  let mainLenght=ingredients.filter((ingredient) => ingredient.type === "main").length;
 
-//Используется для того чтобы TS автоматически получил типы которые мы указали через prop-types
-type burgerIngredientsPropTypes = PropTypes.InferProps<typeof propTypes>;
+  const handleScroll = (event: React.UIEvent<HTMLElement>) => {
+    let height=event.currentTarget.offsetHeight;
+    let k=height/ingridientLenght;
 
+    if(event.currentTarget.scrollTop>k*(bunLenght+sauceLenght+mainLenght)){
+      setCurrentTab("main");
+      return;
+    };
+    if(event.currentTarget.scrollTop>k*bunLenght+sauceLenght){
+      setCurrentTab("sauce");
+      return;
+    };
+    setCurrentTab("bun");
+  };
 
-function BurgerIngredient(props: burgerIngredientsPropTypes) {
-  const [currentTab, setCurrentTab] = useState("one");
+  
 
   return (
-    <>
-      <p className="text text_type_main-large mb-5 mt-10">Соберите бургер</p>
-      <div className={`${ingredientsStyles.tabs} mb-10`}>
-        {props.tabs!.map((tab) => (
+    <div>
+      <p className={ingredientsStyles.head}>Соберите бургер</p>
+      <div className={ingredientsStyles.tabs}>
+        {tabsData!.map((tab) => (
           <Tab
             key={tab._id}
-            value={tab.value}
-            active={currentTab === tab.value}
+            value={tab.type}
+            active={currentTab === tab.type}
             onClick={setCurrentTab}
           >
             {tab.name}
@@ -58,28 +68,27 @@ function BurgerIngredient(props: burgerIngredientsPropTypes) {
         ))}
       </div>
 
-      {props.dataArray && (
-        <div className={`${ingredientsStyles.components} custom-scroll`}>
-          {props.tabs!.map((tab) => (
+      {ingredients && (
+        <ul className={ingredientsStyles.components} onScroll={handleScroll}>
+          {tabsData!.map((tab) => (
             <section key={tab._id}>
-              <p className="text text_type_main-medium">{tab.name}</p>
+              <p className={ingredientsStyles.tab_head}>{tab.name}</p>
               <div className={ingredientsStyles.item_container}>
-                {props
-                  .dataArray!.filter((data) => data.type === tab.type)
-                  .map((data) => (
+                {ingredients
+                  .filter((ingredient) => ingredient.type === tab.type)
+                  .map((ingredient) => (
                     <BurgerIngredientItem
-                      key={data._id}
-                      imageSrc={data.image}
-                      price={data.price}
-                      name={data.name}
+                      key={ingredient._id}
+                      ingredient={ingredient}
+                      getIngredientCountInOrder={getIngredientCountInOrder}
                     />
                   ))}
               </div>
             </section>
           ))}
-        </div>
+        </ul>
       )}
-    </>
+    </div>
   );
 }
 

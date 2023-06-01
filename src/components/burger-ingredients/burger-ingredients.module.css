@@ -2,16 +2,24 @@
 
 .tabs {
   display: flex;
+  composes: mb-10  from global;
 }
 
 .components {
   overflow-y: auto;
   max-width: 600px;
   max-height: 700px;
+  composes: custom-scroll from global;
 }
 
 .tabs_container {
   display: flex;
+}
+
+.tab_head{
+  word-break: break-word;
+  white-space: normal;
+  composes: text text_type_main-medium from global;
 }
 
 .item_container {
@@ -19,7 +27,9 @@
   flex-flow: row wrap;
 }
 
-p {
+.head {
   word-break: break-word;
   white-space: normal;
+  composes: text text_type_main-large mb-5 mt-10 from global;
 }
+

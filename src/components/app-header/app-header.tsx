@@ -6,22 +6,22 @@ function AppHeader() {
     <header className={headerStyles.header}>
       <nav>
         <ul className={headerStyles.menu}>
-          <li className={`${headerStyles.item_active} ml-5 mr-5  `}>
+          <li className={headerStyles.item_active}>
             <BurgerIcon type="primary" />
-            <a className="text text_type_main-default ml-2" href='/'>Конструктор</a>
+            <a className={headerStyles.a} href='/'>Конструктор</a>
           </li>
-          <li className={`${headerStyles.item} ml-5 mr-5`}>
+          <li className={headerStyles.item} >
             <ListIcon type="primary" />
-            <a className="text text_type_main-default ml-2" href='/'>Лента заказов</a>
+            <a className={headerStyles.a} href='/'>Лента заказов</a>
           </li>
         </ul>
       </nav>
       <Logo />
       <nav>
-        <ul className={`${headerStyles.menu} mb-4 mt-4`}>
-        <li className={`${headerStyles.item} ml-5 mr-5`}>
+        <ul className={headerStyles.menu}>
+        <li className={headerStyles.item}>
             <ProfileIcon type="primary" />
-            <a className="text text_type_main-default ml-2" href='/'>Личный кабинет</a>
+            <a className={headerStyles.a} href='/'>Личный кабинет</a>
           </li>
         </ul>
       </nav>

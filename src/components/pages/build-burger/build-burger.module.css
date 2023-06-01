@@ -1,14 +1,18 @@
 .row {
-  width: 1241px;
+  width: 1288px;
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: row;
   justify-content: center;
   align-content: center;
   margin: auto;
 }
 
-.col_left {
+.col_right{
+  align-self: flex-end;
+  composes: ml-5 from from global;
 }
 
-.col_right {
+.col_left{
+  align-self: flex-start;
+  composes: mr-5 from from global;
 }

@@ -6,13 +6,23 @@
   justify-content: center;
   width: 250px;
   cursor: pointer;
+  composes: ml-4 mr-5 mb-10 mt-6 from global
 }
 
-.image {
+.item_image {
+  position: relative;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  width: 250px;
+  cursor: pointer;
+  composes: ml-4 mr-5 from global
 }
 
 .name {
   text-align: center;
+  composes: text  from global
 }
 
 .price {
