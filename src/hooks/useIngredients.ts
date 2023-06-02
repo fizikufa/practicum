@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { baseurl } from "../utils/constants";
 import { useState, useEffect } from 'react';
 import { TIngredient } from '../utils/types'
@@ -6,23 +7,18 @@ const useIngredients = () => {
     const [ingredients, setIngredients] = useState<TIngredient[]>([]);
     const url = baseurl+'/ingredients';
 
-    useEffect(() => {
-        try {
+    useEffect(() => {    
             getData(url);
-        }
-        catch (e) {
-            console.log(e); 
-        }
-    });
+    },[]);
 
     const getData = async (url:string) => {
         try {
-            let response = await fetch(url);
+            const response = await fetch(url);
             if (response.ok) {
-                let json = await response.json();
+                const json = await response.json();
                 setIngredients(json.data as TIngredient[]);
             } else {
-                alert("Ошибка HTTP: " + response.status);
+                return Promise.reject(`Ошибка ${response.status}`);
             }
         }
         catch (e) {

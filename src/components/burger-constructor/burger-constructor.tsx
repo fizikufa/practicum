@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import constructorStyles from "./burger-constructor.module.css";
 import {
   ConstructorElement,
@@ -9,7 +8,7 @@ import {
 import { TIngredient } from "../../utils/types";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-import React from "react";
+import { useModal } from "../../hooks/useModal";
 
 interface IBurgerConstructorProps {
   ingredients: TIngredient[];
@@ -17,26 +16,7 @@ interface IBurgerConstructorProps {
 }
 
 function BurgerConstructor({ ingredients, bun }: IBurgerConstructorProps) {
-  const [orderModalOpened, setOrderModal] = React.useState(false);
-
-  const handleOpenOrderModal= () => {
-    setOrderModal(true);
-  };
-  const handleCloseOrderModal= () => {
-    setOrderModal(false);
-  };
-
-  useEffect(() => {
-    const elements = Array.from(
-      document.getElementsByClassName(
-        "constructor-element"
-      ) as HTMLCollectionOf<HTMLElement>
-    );
-
-    elements.map((element) => {
-      return (element.style.width = "488px");
-    });
-  }, [ingredients]);
+  const { isModalOpen, openModal, closeModal } = useModal();
 
   const totalAmount =
     ingredients.reduce((amount, item) => amount + item.price, 0) + bun.price;
@@ -89,12 +69,12 @@ function BurgerConstructor({ ingredients, bun }: IBurgerConstructorProps) {
           <p className={constructorStyles.p}>{totalAmount}</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button type="primary" size="large" htmlType="button" onClick={handleOpenOrderModal}>
+        <Button type="primary" size="large" htmlType="button" onClick={openModal}>
           Оформить заказ
         </Button>
-       <Modal onClick={handleCloseOrderModal} isOpen={orderModalOpened} title={'Детали заказа'}>
+        <Modal onClick={closeModal} isOpen={isModalOpen} title={''}>
           <OrderDetails />          
-        </Modal>
+        </Modal>        
       </div>
     </>
   );

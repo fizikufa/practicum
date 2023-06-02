@@ -9,7 +9,7 @@ interface IIngredientDetailsProps{
 
 function IngredientDetails({ingredient}:IIngredientDetailsProps){
   return(
-    <div className={ingredientDetailsStyle.general}>
+    <div className={ingredientDetailsStyle.general}>      
       <img className={ingredientDetailsStyle.image} src={ingredient.image} alt={ingredient.name}></img>
       <p className='mt-4 mb-8 text text_type_main-medium'>{ingredient.name}</p>
       <div className={ingredientDetailsStyle.details}>
