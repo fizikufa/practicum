@@ -1,0 +1,25 @@
+.checkout {
+    text-align: center;
+    composes: pt-10 pb-10 from global;
+}
+
+.order_number {
+    composes: text text_type_digits-large mb-8 from global;
+}
+
+.done {
+    background-image: url("order-details.svg");
+    width: 107px;
+    height: 102px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    composes: mb-5 from global;
+}
+.done svg {
+    width: 40px;
+    height: 40px;
+}

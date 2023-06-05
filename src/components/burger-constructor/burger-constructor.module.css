@@ -1,0 +1,47 @@
+.outer_style {
+  display: flex;
+  flex-flow: column;
+  width: calc(600px - 8px);
+}
+
+.inner_style {
+  display: flex;
+  flex-flow: column;
+  overflow-y: auto;
+  max-height: 465px;
+  composes: custom-scroll from global; 
+
+}
+
+.ingredient {
+  display: flex;
+  align-items: center;
+  composes: ml-4 mr-6 mb-4 from global;
+}
+
+.ingredient_bun {
+  display: flex;
+  align-items: center;
+  composes: ml-8 mr-8 mb-4 mt-4 from global;
+}
+
+.cart {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  width: 580px;
+  justify-content: flex-end;
+  composes: mr-10 from global;  
+}
+
+.total {
+  display: flex;
+  flex-flow: row;
+  align-items: center;  
+  composes: mr-10 from global;  
+}
+
+.p {  
+  composes: mr-2 text_type_digits-medium from global; 
+}
+

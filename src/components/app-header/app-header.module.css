@@ -1,0 +1,36 @@
+.header {
+  background-color: #1c1c21;
+  width: 100%;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;  
+}
+
+.menu {
+  display: flex;
+  flex-flow: row;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  color: #8585ad;
+  list-style-type: none;  
+  composes: ml-5 mr-5 from global;
+}
+
+.item_active {
+  display: flex;
+  align-items: center;
+  color: #f2f2f3;
+  list-style-type: none;
+  composes: ml-5 mr-5 from global;
+
+}
+
+.a {
+  color: inherit;
+  text-decoration: none;
+  composes: ml-5 mr-5 from global;
+}
