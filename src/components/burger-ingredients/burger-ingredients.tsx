@@ -1,8 +1,8 @@
 import ingredientsStyles from "./burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState } from "react";
+import { useState , useContext } from "react";
 import BurgerIngredientItem from "./burger-ingredients-item/burger-ingredients-item";
-import { TIngredient } from "../../utils/types";
+import { BurgerContext } from "../../context/burger-context";
 
 const tabsData = [
   {
@@ -22,22 +22,18 @@ const tabsData = [
   },
 ];
 
-interface IBurgerIngredientProps {
-  ingredients: TIngredient[];
-  getIngredientCountInOrder: (ingredient: TIngredient) => number;
-}
-
-function BurgerIngredient({ingredients, getIngredientCountInOrder}: IBurgerIngredientProps) {
+function BurgerIngredient() {
   const [currentTab, setCurrentTab] = useState("bun");
+  const { ingredients } = useContext(BurgerContext); 
 
-  let ingridientLenght=ingredients.length;
+  let ingredientLenght=ingredients.length;
   let bunLenght=ingredients.filter((ingredient) => ingredient.type === "bun").length;
   let sauceLenght=ingredients.filter((ingredient) => ingredient.type === "sauce").length;
   let mainLenght=ingredients.filter((ingredient) => ingredient.type === "main").length;
 
   const handleScroll = (event: React.UIEvent<HTMLElement>) => {
     let height=event.currentTarget.offsetHeight;
-    let k=height/ingridientLenght;
+    let k=height/ingredientLenght;
 
     if(event.currentTarget.scrollTop>k*(bunLenght+sauceLenght+mainLenght)){
       setCurrentTab("main");
@@ -49,8 +45,6 @@ function BurgerIngredient({ingredients, getIngredientCountInOrder}: IBurgerIngre
     };
     setCurrentTab("bun");
   };
-
-  
 
   return (
     <div>
@@ -80,7 +74,6 @@ function BurgerIngredient({ingredients, getIngredientCountInOrder}: IBurgerIngre
                     <BurgerIngredientItem
                       key={ingredient._id}
                       ingredient={ingredient}
-                      getIngredientCountInOrder={getIngredientCountInOrder}
                     />
                   ))}
               </div>

@@ -12,5 +12,10 @@ export type TIngredient = {
     fat: number;
     carbohydrates: number;
     __v: number;
-  }
+  }  
+
+  export interface IState {
+    ingredients: TIngredient[];
+    bun:TIngredient|null;
+}
   

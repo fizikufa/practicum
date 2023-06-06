@@ -8,8 +8,8 @@
 }
 
 .col_right{
-  align-self: flex-end;
-  composes: ml-5 from from global;
+  align-self: flex-start;
+  composes: mt-15 ml-5 from from global;
 }
 
 .col_left{

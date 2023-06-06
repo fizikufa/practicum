@@ -9,21 +9,21 @@ import { TIngredient } from "../../utils/types";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import { useModal } from "../../hooks/useModal";
+import { BurgerContext } from "../../context/burger-context";
+import { useContext } from 'react'
 
-interface IBurgerConstructorProps {
-  ingredients: TIngredient[];
-  bun: TIngredient;
-}
 
-function BurgerConstructor({ ingredients, bun }: IBurgerConstructorProps) {
+function BurgerConstructor() {
   const { isModalOpen, openModal, closeModal } = useModal();
+  const { burgerState } = useContext(BurgerContext);
+  const midIngredients=burgerState.ingredients as TIngredient[];
+  const bun=burgerState.bun as TIngredient;
 
-  const totalAmount =
-    ingredients.reduce((amount, item) => amount + item.price, 0) + bun.price;
+  const totalAmount = midIngredients.reduce((amount, item) => amount + item.price, 0) + bun?.price*2 as number;
 
   return (
     <>
-      <div className="mt-25">
+      {bun && <div className="mt-25">
         <div className={constructorStyles.ingredient_bun}>
           <ConstructorElement
             type="top"
@@ -33,10 +33,10 @@ function BurgerConstructor({ ingredients, bun }: IBurgerConstructorProps) {
             thumbnail={bun.image}
           />
         </div>
-      </div>
+      </div>}
 
       <div className={constructorStyles.inner_style}>
-        {ingredients!.map((data, index) => {
+        {midIngredients!.map((data, index) => {
           if (data.type !== "bun") {
             return (
               <div key={index} className={constructorStyles.ingredient}>
@@ -54,7 +54,7 @@ function BurgerConstructor({ ingredients, bun }: IBurgerConstructorProps) {
         })}
       </div>
 
-      <div className={constructorStyles.ingredient_bun}>
+      {bun &&<div className={constructorStyles.ingredient_bun}>
         <ConstructorElement
           type="bottom"
           isLocked={true}
@@ -62,7 +62,7 @@ function BurgerConstructor({ ingredients, bun }: IBurgerConstructorProps) {
           price={bun.price}
           thumbnail={bun.image}
         />
-      </div>
+      </div>}
 
       <div className={constructorStyles.cart}>
         <div className={constructorStyles.total}>
