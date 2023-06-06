@@ -5,12 +5,12 @@ import { useReducer } from "react";
 import { BurgerContext, ingredientConstructorReducer,ingredientConstructorInitialState, EnumActions} from "../../context/burger-context";
 
 function App() {
-  const ingredients = useIngredients();
- 
   const [burgerState, burgerDispatch] = useReducer(
     ingredientConstructorReducer,
     ingredientConstructorInitialState
   );
+  
+  const ingredients = useIngredients(burgerDispatch); 
  
   return (
     <div>

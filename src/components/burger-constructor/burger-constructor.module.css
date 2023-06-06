@@ -22,7 +22,7 @@
 .ingredient_bun {
   display: flex;
   align-items: center;
-  composes: ml-8 mr-8 mb-4 mt-4 from global;
+  composes: ml-8 mr-8 mb-4 from global;
 }
 
 .cart {

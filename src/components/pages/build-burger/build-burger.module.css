@@ -9,7 +9,8 @@
 
 .col_right{
   align-self: flex-start;
-  composes: mt-15 ml-5 from from global;
+  margin-top: 150px;
+  composes: ml-5 from from global;
 }
 
 .col_left{
