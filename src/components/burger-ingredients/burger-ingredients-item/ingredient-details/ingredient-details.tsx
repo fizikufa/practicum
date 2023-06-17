@@ -1,7 +1,6 @@
 import ingredientDetailsStyle from './ingredient-details.module.css';
 import { TIngredient } from '../../../../utils/types'
 import IngredientNutrition from './IngredientNutrition/IngredientNutrition';
-import React from 'react';
 
 interface IIngredientDetailsProps{
     ingredient: TIngredient;

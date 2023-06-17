@@ -1,6 +1,6 @@
 import { baseurl } from "../utils/constants";
 
-export function loadIngredients() {
+export function loadIngredients(setIngredients:React.Dispatch<React.SetStateAction<never[]>>) {
     const url = baseurl+"/ingredients";
     return getData('GET', url);
 }
@@ -11,6 +11,7 @@ export function createOrder(body:any) {
 }
 
 function getData(method:string, url:string, body?:any) {
+    console.log(body);
     return fetch(url, {
         method: method,
         headers: {

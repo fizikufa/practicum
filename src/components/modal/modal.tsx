@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import { createPortal } from 'react-dom';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import {CloseIcon} from '@ya.praktikum/react-developer-burger-ui-components'
@@ -8,24 +8,15 @@ import modalStyle from './modal.module.css';
 interface IModalProps {
     onClick: () => void;
     title: string,
-    isOpen: boolean,
     children: React.ReactNode
   };
 
 const modalRoot = document.getElementById('modals')!;
 
-const Modal = ({children, onClick, isOpen, title}:IModalProps) => {
-  useEffect(() => {
-    if (!isOpen) return;
-    const closeByEscape = (e:KeyboardEvent) =>(e.key === 'Escape' ? onClick() : null)
-    document.body.addEventListener('keydown', closeByEscape);
-    return () => {
-      document.body.removeEventListener('keydown', closeByEscape);  
-    };
-  }, [onClick, isOpen]);
-  if (!isOpen) return null;
+const Modal = ({children, onClick,  title}:IModalProps) => {
 
-  return isOpen && createPortal(
+
+  return createPortal(
     <div className={modalStyle.container}>
         <div className={modalStyle.modal}>
             <div className={modalStyle.close + " mt-10 mr-10"} onClick={onClick}><CloseIcon type="primary" /></div>

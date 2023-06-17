@@ -1,8 +1,10 @@
 import ingredientsStyles from "./burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState , useContext } from "react";
+import { useState , useEffect } from "react";
 import BurgerIngredientItem from "./burger-ingredients-item/burger-ingredients-item";
-import { BurgerContext } from "../../context/burger-context";
+import { getIngredients } from '../../services/actions/ingredients';
+import { useDispatch, useSelector } from "react-redux";
+import { TIngredient } from "../../utils/types";
 
 const tabsData = [
   {
@@ -24,12 +26,24 @@ const tabsData = [
 
 function BurgerIngredient() {
   const [currentTab, setCurrentTab] = useState("bun");
-  const { ingredients } = useContext(BurgerContext); 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    //Пока не осилил ts потом приведу в порядок
+  const ingredients = useSelector((state) => state.ingredients.ingredients);
+  const dispatch = useDispatch();
+
+  
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    //Пока не осилил ts потом приведу в порядок
+    dispatch(getIngredients());
+  }, []);
 
   let ingredientLenght=ingredients.length;
-  let bunLenght=ingredients.filter((ingredient) => ingredient.type === "bun").length;
-  let sauceLenght=ingredients.filter((ingredient) => ingredient.type === "sauce").length;
-  let mainLenght=ingredients.filter((ingredient) => ingredient.type === "main").length;
+  let bunLenght=ingredients.filter((ingredient:TIngredient) => ingredient.type === "bun").length;
+  let sauceLenght=ingredients.filter((ingredient:TIngredient) => ingredient.type === "sauce").length;
+  let mainLenght=ingredients.filter((ingredient:TIngredient) => ingredient.type === "main").length;
 
   const handleScroll = (event: React.UIEvent<HTMLElement>) => {
     let height=event.currentTarget.offsetHeight;
@@ -67,10 +81,10 @@ function BurgerIngredient() {
           {tabsData!.map((tab) => (
             <section key={tab._id}>
               <p className={ingredientsStyles.tab_head}>{tab.name}</p>
-              <div className={ingredientsStyles.item_container}>
+              <div className={ingredientsStyles.item_container} id='typeContainer'>
                 {ingredients
-                  .filter((ingredient) => ingredient.type === tab.type)
-                  .map((ingredient) => (
+                  .filter((ingredient:TIngredient) => ingredient.type === tab.type)
+                  .map((ingredient:TIngredient) => (
                     <BurgerIngredientItem
                       key={ingredient._id}
                       ingredient={ingredient}
