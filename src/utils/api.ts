@@ -1,17 +1,16 @@
 import { baseurl } from "../utils/constants";
 
 export function loadIngredients(setIngredients:React.Dispatch<React.SetStateAction<never[]>>) {
-    const url = baseurl+"/ingredients";
+    const url = `${baseurl}/ingredients`;
     return getData('GET', url);
 }
 
 export function createOrder(body:any) {
-    const url = baseurl+"/orders";
+    const url = `${baseurl}/orders`;
     return getData('POST', url, body);
 }
 
-function getData(method:string, url:string, body?:any) {
-    console.log(body);
+function getData(method:string, url:string, body?:any) {    
     return fetch(url, {
         method: method,
         headers: {

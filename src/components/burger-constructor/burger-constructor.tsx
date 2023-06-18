@@ -1,11 +1,10 @@
 import constructorStyles from "./burger-constructor.module.css";
 import {
-  DragIcon,
   CurrencyIcon,
   Button,
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { TIngredient } from "../../utils/types";
+import { Ingredient, IngredientInOrder, State } from "../../utils/types";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import {
@@ -22,22 +21,22 @@ import BurgerConstructorElement from "./burger-constructor-element/burger-constr
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
-  const selectorOrders = (store: any) => store.order;
+  const selectorOrders = (store: State) => store.order;
   const { orderData, orderNumber } = useSelector(selectorOrders);
 
-  const bun = orderData.find(function (element: TIngredient) {
+  const bun = orderData.find(function (element: IngredientInOrder) {
     return element.type === "bun";
   });
 
   const midIngredients = orderData.filter(
-    (element: TIngredient) => element.type !== "bun"
+    (element: IngredientInOrder) => element.type !== "bun"
   );
 
   const totalAmount = useMemo(() => {
     if (orderData.length > 0) {
       return orderData
         .map(
-          (element: TIngredient) =>
+          (element: IngredientInOrder) =>
             element.price * (element.type === "bun" ? 2 : 1)
         )
         .reduce((sum: number, price: number) => sum + price, 0);
@@ -46,7 +45,7 @@ function BurgerConstructor() {
     }
   }, [orderData]);
 
-  const onDropIngredient = (ingredient: TIngredient) => {
+  const onDropIngredient = (ingredient: Ingredient) => {
     if (ingredient.type === "bun") {
       dispatch({
         type: ADD_BUN,
@@ -62,7 +61,7 @@ function BurgerConstructor() {
 
   const [, dropTarget] = useDrop({
     accept: "ingredient",
-    drop: (ingredientData: TIngredient) => onDropIngredient(ingredientData),
+    drop: (ingredientData: IngredientInOrder) => onDropIngredient(ingredientData),
   });
 
   const handleOpenIngredientModal = () => {   
@@ -70,7 +69,7 @@ function BurgerConstructor() {
        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     //Пока не осилил ts потом приведу в порядок
-      dispatchOrder(orderData.map((ingredient: TIngredient) => ingredient._id))
+      dispatchOrder(orderData.map((ingredient: IngredientInOrder) => ingredient._id))
     );
   };
   const handleCloseOrderModal = () => {
@@ -93,7 +92,7 @@ function BurgerConstructor() {
         )}
 
         <div className={constructorStyles.inner_style}>
-          {midIngredients!.map((data: TIngredient, index: number) => {
+          {midIngredients!.map((data: IngredientInOrder, index: number) => {
             if (data.type !== "bun") {
               return (
                 <div key={index} className={constructorStyles.ingredient}>

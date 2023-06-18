@@ -7,10 +7,11 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { MOVE_INGREDIENT } from "../../../services/actions/order";
 import Style from "./burger-constructor-element.module.css";
-import { TIngredient } from "../../../utils/types";
+import { Ingredient } from "../../../utils/types";
+
 
 interface IBurgerConstructorElementProps {
-  elementData: TIngredient;
+  elementData: Ingredient;
   bunType: "bottom" | "top" | undefined;
   isLocked: boolean;
   bunTypeName: string;
@@ -32,7 +33,7 @@ function BurgerConstructorElement({
   };
 
   const [, dropRef] = useDrop({
-    accept: "ingredientInConstructor",
+    accept: "BurgerConstructorElement",
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId(),
@@ -92,12 +93,13 @@ function BurgerConstructorElement({
     },
   });
 
-  const [, dragRef] = useDrag({
-    type: "ingredientInConstructor",
+  const [, dragRef] = useDrag({   
+    type: "BurgerConstructorElement",
     item: () => ({ elementData, index }),
   });
 
   dragRef(dropRef(ref));
+
 
   return (
     <div className={Style.element} ref={ref}>

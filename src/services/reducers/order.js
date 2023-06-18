@@ -94,7 +94,7 @@ import {
       }
 
       case POST_ORDER_API_FAIL: {
-        return { ...state, orderRequestFailed: true, orderRequest: false };
+        return { ...state, orderNumber: null, orderRequestFailed: true, orderRequest: false };
       }
 
       case DELETE_ORDER:

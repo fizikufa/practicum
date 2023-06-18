@@ -7,13 +7,12 @@ import modalStyle from './modal.module.css';
   
 interface IModalProps {
     onClick: () => void;
-    title: string,
-    children: React.ReactNode
+    title: string
   };
 
 const modalRoot = document.getElementById('modals')!;
 
-const Modal = ({children, onClick,  title}:IModalProps) => {
+const Modal:React.FC<React.PropsWithChildren<IModalProps>> = ({children, onClick,  title}) => {
 
 
   return createPortal(

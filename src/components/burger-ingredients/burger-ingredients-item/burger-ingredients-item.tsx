@@ -3,9 +3,9 @@ import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { TIngredient } from "../../../utils/types";
+import { Ingredient } from "../../../utils/types";
 import Modal from "../../modal/modal";
-import IngredientDetails from "./ingredient-details/ingredient-details";
+import IngredientDetails from "../ingredient-details/ingredient-details";
 import { useSelector, useDispatch } from "react-redux";
 import { useDrag } from "react-dnd";
 import {
@@ -15,7 +15,7 @@ import {
 import { useCallback } from "react";
 
 interface IBurgerIngredientItemProps {
-  ingredient: TIngredient;
+  ingredient: Ingredient;
 }
 
 function BurgerIngredientItem({ ingredient }: IBurgerIngredientItemProps) {
@@ -36,10 +36,10 @@ function BurgerIngredientItem({ ingredient }: IBurgerIngredientItemProps) {
   const orderData = useSelector((state) => state.order.orderData);
 
   const orderCount = useCallback(
-    (ingredient: TIngredient) => {
+    (ingredient: Ingredient) => {
       const { _id, type } = ingredient;
       const ingredientsCount = orderData.filter(
-        (element: TIngredient) => element._id === _id
+        (element: Ingredient) => element._id === _id
       ).length;
       return type === "bun" ? ingredientsCount * 2 : ingredientsCount;
     },

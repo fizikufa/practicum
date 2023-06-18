@@ -30,7 +30,7 @@ import {
         };
       }
       case GET_INGREDIENTS_API_FAIL: {
-        return { ...state, ingredientsFailed: true, ingredientsRequest: false };
+        return { ...state,ingredients: [], ingredientsFailed: true, ingredientsRequest: false };
       }
       default: {
         return state;

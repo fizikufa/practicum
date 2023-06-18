@@ -1,9 +1,9 @@
 import ingredientDetailsStyle from './ingredient-details.module.css';
-import { TIngredient } from '../../../../utils/types'
-import IngredientNutrition from './IngredientNutrition/IngredientNutrition';
+import { Ingredient } from '../../../utils/types'
+import IngredientNutrition from '../Ingredient-nutrition/IngredientNutrition';
 
 interface IIngredientDetailsProps{
-    ingredient: TIngredient;
+    ingredient: Ingredient;
 }
 
 function IngredientDetails({ingredient}:IIngredientDetailsProps){

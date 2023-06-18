@@ -1,8 +1,8 @@
-import buildStyles from "./build-burger.module.css";
+import buildStyles from "./burger-construction-page.module.css";
 import BurgerConstructor from "../../burger-constructor/burger-constructor";
 import BurgerIngredients from "../../burger-ingredients/burger-ingredients";
 
-function BuildBurger() {
+function BurgerConstructorPage() {
   return (
     <div className={buildStyles.row}>
       <div className={buildStyles.col_left}>
@@ -15,4 +15,4 @@ function BuildBurger() {
   );
 }
 
-export default BuildBurger;
+export default BurgerConstructorPage;

@@ -1,38 +1,40 @@
 import ingredientsStyles from "./burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState , useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import BurgerIngredientItem from "./burger-ingredients-item/burger-ingredients-item";
-import { getIngredients } from '../../services/actions/ingredients';
+import { getIngredients } from "../../services/actions/ingredients";
 import { useDispatch, useSelector } from "react-redux";
-import { TIngredient } from "../../utils/types";
-
-const tabsData = [
-  {
-    _id: 0,
-    name: "Булки",
-    type: "bun",
-  },
-  {
-    _id: 1,
-    name: "Соусы",
-    type: "sauce",
-  },
-  {
-    _id: 2,
-    name: "Начинки",
-    type: "main",
-  },
-];
+import { Ingredient, State } from "../../utils/types";
 
 function BurgerIngredient() {
+  const tabsData = [
+    {
+      _id: 0,
+      name: "Булки",
+      type: "bun",
+      ref: useRef<HTMLDivElement>(null),
+    },
+    {
+      _id: 1,
+      name: "Соусы",
+      type: "sauce",
+      ref: useRef<HTMLDivElement>(null),
+    },
+    {
+      _id: 2,
+      name: "Начинки",
+      type: "main",
+      ref: useRef<HTMLDivElement>(null),
+    },
+  ];
+
   const [currentTab, setCurrentTab] = useState("bun");
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    //Пока не осилил ts потом приведу в порядок
-  const ingredients = useSelector((state) => state.ingredients.ingredients);
+
+  const ingredients = useSelector(
+    (state: State) => state.ingredients.ingredients
+  );
   const dispatch = useDispatch();
 
-  
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -40,24 +42,46 @@ function BurgerIngredient() {
     dispatch(getIngredients());
   }, []);
 
-  let ingredientLenght=ingredients.length;
-  let bunLenght=ingredients.filter((ingredient:TIngredient) => ingredient.type === "bun").length;
-  let sauceLenght=ingredients.filter((ingredient:TIngredient) => ingredient.type === "sauce").length;
-  let mainLenght=ingredients.filter((ingredient:TIngredient) => ingredient.type === "main").length;
+  let ingredientLength = ingredients.length;
+  let bunLength = ingredients.filter(
+    (ingredient: Ingredient) => ingredient.type === "bun"
+  ).length;
+  let sauceLength = ingredients.filter(
+    (ingredient: Ingredient) => ingredient.type === "sauce"
+  ).length;
+  let mainLength = ingredients.filter(
+    (ingredient: Ingredient) => ingredient.type === "main"
+  ).length;
+
+  const mainRef = useRef<HTMLDivElement>(null);
 
   const handleScroll = (event: React.UIEvent<HTMLElement>) => {
-    let height=event.currentTarget.offsetHeight;
-    let k=height/ingredientLenght;
+    let height = event.currentTarget.offsetHeight;
+    let k = height / ingredientLength;
 
-    if(event.currentTarget.scrollTop>k*(bunLenght+sauceLenght+mainLenght)){
+    if (
+      event.currentTarget.scrollTop >
+      k * (bunLength +sauceLength + mainLength)
+    ) {
       setCurrentTab("main");
       return;
-    };
-    if(event.currentTarget.scrollTop>k*bunLenght+sauceLenght){
+    }
+    if (event.currentTarget.scrollTop > k * bunLength + sauceLength) {
       setCurrentTab("sauce");
       return;
-    };
+    }
     setCurrentTab("bun");
+  };
+
+
+  ////Почемуто не работает сдвиг скрола, разберусь позже
+  const setTab = (name: string) => {
+      setCurrentTab(name);      
+      mainRef.current?.scrollTo({
+        top: tabsData.find(tab => tab.name === name)?.ref.current?.offsetTop,
+        left: 0,
+        behavior: "smooth",
+      });
   };
 
   return (
@@ -69,7 +93,7 @@ function BurgerIngredient() {
             key={tab._id}
             value={tab.type}
             active={currentTab === tab.type}
-            onClick={setCurrentTab}
+            onClick={setTab}
           >
             {tab.name}
           </Tab>
@@ -77,14 +101,23 @@ function BurgerIngredient() {
       </div>
 
       {ingredients && (
-        <ul className={ingredientsStyles.components} onScroll={handleScroll}>
+        <div
+          className={ingredientsStyles.components}
+          onScroll={handleScroll}
+          ref={mainRef}
+        >
           {tabsData!.map((tab) => (
-            <section key={tab._id}>
+            <section key={tab._id} ref={tab.ref}>
               <p className={ingredientsStyles.tab_head}>{tab.name}</p>
-              <div className={ingredientsStyles.item_container} id='typeContainer'>
+              <div
+                className={ingredientsStyles.item_container}
+                id="typeContainer"
+              >
                 {ingredients
-                  .filter((ingredient:TIngredient) => ingredient.type === tab.type)
-                  .map((ingredient:TIngredient) => (
+                  .filter(
+                    (ingredient: Ingredient) => ingredient.type === tab.type
+                  )
+                  .map((ingredient: Ingredient) => (
                     <BurgerIngredientItem
                       key={ingredient._id}
                       ingredient={ingredient}
@@ -93,7 +126,7 @@ function BurgerIngredient() {
               </div>
             </section>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );
