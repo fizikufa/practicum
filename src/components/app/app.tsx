@@ -1,16 +1,17 @@
 import AppHeader from "../../components/app-header/app-header";
-import BuildBurger from "../../components/pages/build-burger/build-burger";
-import useIngredients from '../../hooks/useIngredients';
+import BurgerConstructorPage from "../pages/burger-construction-page/burger-construction-page";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 function App() {
-  const data = useIngredients();
   return (
-    <div>
+    <>
       <AppHeader />
-      {data.length &&<BuildBurger ingredients={data}/>}
-    </div>
+        <DndProvider backend={HTML5Backend}>
+          <BurgerConstructorPage />
+        </DndProvider>
+    </>
   );
 }
-
 
 export default App;

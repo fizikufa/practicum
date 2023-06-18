@@ -1,0 +1,34 @@
+.element {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: auto auto;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    cursor: grab;
+  }
+  
+  .topOrderElement {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 16px;
+  }
+  
+  .middleOrderElement {
+    padding-left: 0;
+    contain-intrinsic-height: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .elementShrink {
+    width: 530px;
+  }
+
+  .grabbing {
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+  }

@@ -2,11 +2,14 @@ import "@ya.praktikum/react-developer-burger-ui-components";
 import {CheckMarkIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./order-details.module.css";
 
+interface TOrderDetailsProps{
+    number: string
+}
 
-const OrderDetails = () => {
+const OrderDetails = ({number}:TOrderDetailsProps) => {
     return (
         <div className={styles.checkout}>
-            <p className={styles.order_number}>034536</p>
+            <p className={styles.order_number}>{number}</p>
             <p className="text text_type_main-medium mb-10">идентификатор заказа</p>
             <div className={styles.done}>
                 <CheckMarkIcon type="primary" />

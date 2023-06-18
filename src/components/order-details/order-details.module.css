@@ -8,7 +8,7 @@
 }
 
 .done {
-    background-image: url("order-details.svg");
+    background-image: url("../../images/order-details.svg");
     width: 107px;
     height: 102px;
     margin-left: auto;
