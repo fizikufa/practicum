@@ -1,162 +1,182 @@
-import constructorStyles from "./burger-constructor.module.css";
-import {
-  CurrencyIcon,
-  Button,
-  ConstructorElement,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import { Ingredient, IngredientInOrder, State } from "../../utils/types";
-import Modal from "../modal/modal";
+import React, { FC, useMemo } from "react";
+import { useNavigate } from "react-router";
+import { useDispatch } from "../../hooks/useDispatch";
+import { useSelector } from "../../hooks/useSelector";
+import { useDrop } from "react-dnd";
+import ConstructorElements from "./burger-constructor-element/burger-constructor-element";
 import OrderDetails from "../order-details/order-details";
 import {
-  dispatchOrder,
-  ADD_BUN,
-  ADD_INGREDIENT,
-  DELETE_ORDER,
-} from "../../services/actions/order";
+  Button,
+  ConstructorElement,
+  CurrencyIcon,
+} from "@ya.praktikum/react-developer-burger-ui-components";
+import Modal from "../modal/modal";
+import { dispatchOrder } from "../../services/actions/order";
 import { v4 as uuidv4 } from "uuid";
-import { useDispatch, useSelector } from "react-redux";
-import { useMemo } from "react";
-import { useDrop } from "react-dnd";
-import BurgerConstructorElement from "./burger-constructor-element/burger-constructor-element";
+import { ADD_BUN, ADD_INGREDIENT, DELETE_ORDER } from "../../utils/constants"; //
+import { getUser, getBurgerData } from "../../utils/state";
+import { TIngredient } from "../../utils/types";
+import burgerConstructorStyle from "./burger-constructor.module.css";
 
-function BurgerConstructor() {
+export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
-  const selectorOrders = (store: State) => store.order;
-  const { orderData, orderNumber } = useSelector(selectorOrders);
+  const navigate = useNavigate();
 
-  const bun = orderData.find(function (element: IngredientInOrder) {
+  const { orderNumber } = useSelector((state) => state.order);
+  const burgerData = useSelector(getBurgerData);
+  const user = useSelector(getUser);
+
+  const bun = burgerData.find(function (element) {
     return element.type === "bun";
   });
 
-  const midIngredients = orderData.filter(
-    (element: IngredientInOrder) => element.type !== "bun"
+  const ingredientsMidStuff = burgerData.filter(
+    (element) => element.type !== "bun"
   );
 
   const totalAmount = useMemo(() => {
-    if (orderData.length > 0) {
-      return orderData
-        .map(
-          (element: IngredientInOrder) =>
-            element.price * (element.type === "bun" ? 2 : 1)
-        )
-        .reduce((sum: number, price: number) => sum + price, 0);
+    if (burgerData.length > 0) {
+      return burgerData
+        .map((element) => element.price * (element.type === "bun" ? 2 : 1))
+        .reduce((sum, price) => sum + price, 0);
     } else {
       return 0;
     }
-  }, [orderData]);
+  }, [burgerData]);
 
-  const onDropIngredient = (ingredient: Ingredient) => {
+  const onDropIngredient = (ingredient: TIngredient) => {
     if (ingredient.type === "bun") {
       dispatch({
         type: ADD_BUN,
-        payload: { _uid: uuidv4(), ...ingredient },
+        payload: { ...ingredient, _uid: uuidv4() },
       });
     } else {
       dispatch({
         type: ADD_INGREDIENT,
-        payload: { _uid: uuidv4(), ...ingredient },
+        payload: { ...ingredient, _uid: uuidv4() },
       });
     }
   };
 
   const [, dropTarget] = useDrop({
     accept: "ingredient",
-    drop: (ingredientData: IngredientInOrder) => onDropIngredient(ingredientData),
+    drop: (ingredientData: TIngredient) => onDropIngredient(ingredientData),
   });
 
-  const handleOpenIngredientModal = () => {   
-    dispatch(
-       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    //Пока не осилил ts потом приведу в порядок
-      dispatchOrder(orderData.map((ingredient: IngredientInOrder) => ingredient._id))
-    );
+  const handleOpenIngredientModal = () => {
+    user
+      ? dispatch(dispatchOrder(burgerData.map((ingredient) => ingredient._id)))
+      : navigate("/login");
   };
+
   const handleCloseOrderModal = () => {
     dispatch({ type: DELETE_ORDER });
   };
 
   return (
     <>
-      <section ref={dropTarget}>
-        {bun && (
-          <div className={constructorStyles.ingredient_bun}>
-            <ConstructorElement
-              type="top"
-              isLocked={true}
-              text={bun.name + " (верх)"}
-              price={bun.price}
-              thumbnail={bun.image}
-            />
-          </div>
-        )}
-
-        <div className={constructorStyles.inner_style}>
-          {midIngredients!.map((data: IngredientInOrder, index: number) => {
-            if (data.type !== "bun") {
-              return (
-                <div key={index} className={constructorStyles.ingredient}>
-                  <BurgerConstructorElement
-                    elementData={data}
-                    bunType={undefined}
-                    bunTypeName={""}
-                    isLocked={false}
-                    index={index}
-                    key={data._id}
-                  />
+      <section
+        className={`${burgerConstructorStyle.element__section}`}
+        ref={dropTarget}
+      >
+        <div className={`${burgerConstructorStyle.element__container}`}>
+          <ul className={`${burgerConstructorStyle.element__list}`}>
+            {bun ? (
+              <li className={`${burgerConstructorStyle.element__bun}`}>
+                <ConstructorElement
+                  type={"top"}
+                  isLocked={true}
+                  text={`${bun.name} (верх)`}
+                  price={bun.price}
+                  thumbnail={bun.image}
+                />
+              </li>
+            ) : (
+              <div className={burgerConstructorStyle.element__bun}>
+                <div className={burgerConstructorStyle.empty_bun_top}>
+                  <p className="text text_type_main-default text_color_inactive">
+                    Добавьте булку
+                  </p>
                 </div>
-              );
-            }
-            return null;
-          })}
-          {midIngredients.length === 0 && (
-            <li className={constructorStyles.ingredient}>
-              <span className="text mt-30 ml-30 text_type_main-default">
-                Добавьте ингредиенты для Вашего бургера!
-              </span>
-            </li>
-          )}
-        </div>
+              </div>
+            )}
 
-        {bun && (
-          <div className={constructorStyles.ingredient_bun}>
-            <ConstructorElement
-              type="bottom"
-              isLocked={true}
-              text={bun.name + " (низ)"}
-              price={bun.price}
-              thumbnail={bun.image}
-            />
-          </div>
-        )}
-      </section>
-      {totalAmount > 0 && (
-        <div className={constructorStyles.cart}>
-          <div className={constructorStyles.total}>
-            <p className={constructorStyles.p}>{totalAmount}</p>
-            <CurrencyIcon type="primary" />
-          </div>
-
-          {bun && midIngredients.length > 0 && (
-            <Button
-              type="primary"
-              size="large"
-              htmlType="button"
-              onClick={handleOpenIngredientModal}
+            <ul className={`${burgerConstructorStyle.element_midstuff}`}>
+              {ingredientsMidStuff.map((element, index) => {
+                return (
+                  <li
+                    key={element._id}
+                    className={burgerConstructorStyle.element}
+                  >
+                    <ConstructorElements
+                      elementData={element}
+                      bunTypeName={""}
+                      isLocked={false}
+                      index={index}
+                      key={element._id}
+                    />
+                  </li>
+                );
+              })}
+              {ingredientsMidStuff.length === 0 && (                
+                <li className={burgerConstructorStyle.element}>
+                  <div className={burgerConstructorStyle.empty_filling}>
+                    <p className="text text_type_main-default text_color_inactive">
+                      Добавьте ингредиенты
+                    </p>
+                  </div>
+                </li>
+              )}
+            </ul>
+            {bun ? (
+              <li className={`${burgerConstructorStyle.element__bun}`}>
+                <ConstructorElement
+                  type={"bottom"}
+                  isLocked={true}
+                  text={`${bun.name} (низ)`}
+                  price={bun.price}
+                  thumbnail={bun.image}
+                />
+              </li>
+            ) : (
+              <div className={burgerConstructorStyle.element__bun}>
+                <div className={burgerConstructorStyle.empty_bun_bottom}>
+                  <p className="text text_type_main-default text_color_inactive">
+                    Добавьте булку
+                  </p>
+                </div>
+              </div>
+            )}
+          </ul>
+          {ingredientsMidStuff.length > 0 && (
+            <div
+              className={`mt-10 mr-5 ${burgerConstructorStyle.constructor_total}`}
             >
-              Оформить заказ
-            </Button>
-          )}
-
-          {orderNumber && (
-            <Modal onClick={handleCloseOrderModal} title={"Детали заказа"}>
-              <OrderDetails number={orderNumber} />
-            </Modal>
+              <div className={burgerConstructorStyle.containerTotal}>
+                <p className="mr-2 text text_type_digits-medium">
+                  {totalAmount}
+                </p>
+                <CurrencyIcon type="primary" />
+              </div>
+              <Button
+                type="primary"
+                size="large"
+                htmlType="button"
+                onClick={handleOpenIngredientModal}
+              >
+                Оформить заказ
+              </Button>
+            </div>
           )}
         </div>
+      </section>
+      {orderNumber && (
+        <Modal onClick={handleCloseOrderModal} title={"Детали заказа"}>
+          <OrderDetails number={orderNumber} />
+        </Modal>
       )}
     </>
   );
-}
+};
 
-export default BurgerConstructor;
+export default React.memo(BurgerConstructor);

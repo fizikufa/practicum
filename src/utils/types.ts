@@ -1,5 +1,21 @@
-//  объект ингредиента  //
-export type Ingredient = {
+import { store } from '../services/store/store';
+import { Action, ActionCreator } from 'redux';
+import { ThunkAction } from 'redux-thunk';
+
+import { TIngredientActions } from '../services/actions/ingredients';
+import { TAuthActions } from '../services/actions/auth';
+import { TOrderActions } from '../services/actions/order';
+
+type TAppActions = TIngredientActions | TOrderActions | TAuthActions;
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+export type AppThunk<ReturnType = void> = ActionCreator<
+  ThunkAction<ReturnType, Action, RootState, TAppActions>
+>;
+
+//объект ингредиента 
+export type TIngredient = {
     _id: string; 
     name: string;
     image: string;
@@ -14,7 +30,8 @@ export type Ingredient = {
     __v: number;
   }  
 
-  export type IngredientInOrder = {
+  //объект ингредиента в заказе
+  export type TIngredientInOrder = {
     _uid: string; 
     _id: string; 
     name: string;
@@ -30,26 +47,73 @@ export type Ingredient = {
     __v: number;
   }
 
-  export interface Ingredients{
-    ingredients: Ingredient[], 
+  export interface TIngredients{
+    ingredients: TIngredient[], 
     ingredientsRequest: boolean,
     ingredientsFailed: boolean
   }
 
- export interface IngredientDetails{
-  IngredientDetails: Ingredient
+ export interface TIngredientDetails{
+  IngredientDetails: TIngredient
   }
 
   export interface Order{
-    orderData: IngredientInOrder[], 
+    orderData: TIngredientInOrder[], 
     orderNumber: string,
     orderRequest: boolean,
     orderRequestFailed: boolean
   }
 
-  export interface State {
-    ingredients: Ingredients;
-    ingredientDetails: IngredientDetails, 
-    order: Order        
-}
   
+
+export type TUser = {
+  name: string;
+  email: string;
+  password: string;
+}
+
+export type TFormValues = {
+  name?: string;
+  email?: string;
+  password?: string;
+  token?: string;
+}
+
+export type TOrder = {
+  _id: string;
+  number: number;
+  name: string;
+  status: string;
+  createdAt: Date;
+  ingredients: string[];
+}
+
+
+export type TResponse<T> = {
+  user(user: any): import('../services/actions/auth').IUpdateUserProfileOK;
+  success: boolean;
+} & T;
+
+
+export type TTokenResponse = {
+  accessToken: string;
+  refreshToken: string;
+};
+
+
+export type TUserResponse = {
+  user: TUser;
+};
+
+
+export type TAuthResponse = TTokenResponse & TUserResponse;
+
+
+export type TIngredientResponse = {
+  data: TIngredient[];
+};
+
+
+export type TOrderResponse = {
+  order: TOrder;
+};
