@@ -243,7 +243,7 @@ import {
         if (res && res.success) {
           dispatch({
             type: UPDATE_USER_PROFILE_API_OK,
-            payload: res.user
+            payload: res.user,
           });
         } else {
           dispatch({
@@ -254,6 +254,7 @@ import {
     };
   };
   
+
 
   export const getAccessToken = (refreshToken: string | undefined ) => {
     return function (dispatch: AppDispatch) {

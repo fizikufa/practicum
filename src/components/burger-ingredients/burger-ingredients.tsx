@@ -1,6 +1,6 @@
 import ingredientsStyles from "./burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState, useRef } from "react";
+import { useState, useRef, useMemo } from "react";
 import BurgerIngredientItem from "./burger-ingredients-item/burger-ingredients-item";
 import { TIngredient, RootState } from "../../utils/types";
 import { useSelector } from "react-redux";
@@ -34,16 +34,27 @@ function BurgerIngredient() {
   );
 
   const ingredientLength = ingredients.length;
-  const bunLength = ingredients.filter(
-    (ingredient: TIngredient) => ingredient.type === "bun"
-  ).length;
-  const sauceLength = ingredients.filter(
-    (ingredient: TIngredient) => ingredient.type === "sauce"
-  ).length;
-  const mainLength = ingredients.filter(
-    (ingredient: TIngredient) => ingredient.type === "main"
-  ).length;
 
+  const bunLength = useMemo<number>(
+    () =>
+      ingredients.filter((ingredient: TIngredient) => ingredient.type === "bun")
+        .length,
+    [ingredients]
+  );
+  const sauceLength = useMemo<number>(
+    () =>
+      ingredients.filter(
+        (ingredient: TIngredient) => ingredient.type === "sauce"
+      ).length,
+    [ingredients]
+  );
+  const mainLength = useMemo<number>(
+    () =>
+      ingredients.filter(
+        (ingredient: TIngredient) => ingredient.type === "main"
+      ).length,
+    [ingredients]
+  );
 
   const handleScroll = (event: React.UIEvent<HTMLElement>) => {
     const height = event.currentTarget.offsetHeight;
@@ -65,7 +76,9 @@ function BurgerIngredient() {
 
   const setTab = (type: string) => {
     setCurrentTab(type);
-    tabsData.find((tab) => tab.type === type)?.ref.current?.scrollIntoView({
+    tabsData
+      .find((tab) => tab.type === type)
+      ?.ref.current?.scrollIntoView({
         behavior: "smooth",
         block: "start",
         inline: "nearest",
@@ -89,10 +102,7 @@ function BurgerIngredient() {
       </div>
 
       {ingredients && (
-        <div
-          className={ingredientsStyles.components}
-          onScroll={handleScroll}
-        >
+        <div className={ingredientsStyles.components} onScroll={handleScroll}>
           {tabsData!.map((tab) => (
             <section key={tab._id} ref={tab.ref}>
               <p className={ingredientsStyles.tab_head}>{tab.name}</p>

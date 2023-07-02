@@ -8,7 +8,7 @@ import {
   TUserResponse,
   TIngredientResponse, 
   TOrderResponse,
-  TFormValues,
+  TFormValues
  } from './types';
 
 
@@ -16,7 +16,7 @@ import {
 const checkResponse = <T>(res: Response) => {
   return res.ok 
     ? res.json().then((data) => data as TResponse<T>) 
-    : Promise.reject(res.status);
+    : Promise.reject(res);
 };
 
 
@@ -54,7 +54,7 @@ export const refreshToken = async ():Promise<TRefreshResponse> => {
     headers: {
       'Content-Type': 'application/json;charset=utf-8'
     },
-    body: JSON.stringify({'token': `${getCookie('accessToken')}`})
+    body: JSON.stringify({'token': `${getCookie('refreshToken')}`})
   })
   .then((res) => checkResponse<TRefreshResponse>(res))
   .then((refreshData) => {
@@ -66,18 +66,15 @@ export const refreshToken = async ():Promise<TRefreshResponse> => {
   })
 }
 
-export const fetchWithRefresh = async (url:string, options:RequestInit) => {
+export const fetchWithRefresh = async <T>(url:string, options:RequestInit) => {
   try {
-    const res = await fetch(url, options);
-    return res;
+    return await fetch(url, options).then(res =>checkResponse<T>(res));
   } catch (error) {
-    if ((error as {message: string}).message === 'jwt expired') {
-      const refreshData = await refreshToken();
-      if (options.headers) {
+    if ((error as {status: number}).status === 403) {
+      return await refreshToken().then(refreshData => {
         (options.headers as { [key: string]: string}).Authorization = refreshData.accessToken;
-      }
-      return await fetch(url, options);
-      ;
+        return fetch(url, options).then(res =>checkResponse<T>(res));}        
+      );      
     } else {
       return Promise.reject(error);
     }
@@ -149,7 +146,7 @@ export const getUserProfileApi = async () => {
 export const updateUserProfileApi = async ({ email, password, name }:TFormValues) => {
   try {
     const { accessToken } = authTokens();
-    return await fetchWithRefresh(`${baseurl}/auth/user`, {
+    return await fetchWithRefresh<TUserResponse>(`${baseurl}/auth/user`, {
       method: 'PATCH',
       mode: 'cors',
       cache: 'no-cache',
@@ -161,9 +158,9 @@ export const updateUserProfileApi = async ({ email, password, name }:TFormValues
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
       body: JSON.stringify({ email, password, name }),
-    }).then(res => checkResponse<TUserResponse>(res));
+    });
   } catch (error) {
-    console.log(`Ошибка updateUserProfileApi: ${error}`);
+    console.log(`Ошибка updateUserProfileApi: ${JSON.stringify(error)}`);
   }
 };
 

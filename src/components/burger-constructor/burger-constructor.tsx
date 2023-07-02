@@ -14,7 +14,7 @@ import Modal from "../modal/modal";
 import { dispatchOrder } from "../../services/actions/order";
 import { v4 as uuidv4 } from "uuid";
 import { ADD_BUN, ADD_INGREDIENT, DELETE_ORDER } from "../../utils/constants"; //
-import { getUser, getBurgerData } from "../../utils/state";
+import { getUser, getBurgerData, getOrderNumber } from "../../utils/state";
 import { TIngredient } from "../../utils/types";
 import burgerConstructorStyle from "./burger-constructor.module.css";
 
@@ -22,7 +22,7 @@ export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { orderNumber } = useSelector((state) => state.order);
+  const orderNumber  = useSelector(getOrderNumber);
   const burgerData = useSelector(getBurgerData);
   const user = useSelector(getUser);
 

@@ -2,10 +2,11 @@
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from '../../../hooks/useDispatch';
 import { useForm } from '../../../hooks/useForm';
-import  AppHeader from '../../app-header/app-header';
 import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { loginUser } from '../../../services/actions/auth';
 import LoginStyle from './login-page.module.css';
+import { REGURL, FORGOTURL } from './../../../utils/constants';
+
 
 export const LoginPage = () => {
   const navigate = useNavigate();
@@ -48,7 +49,7 @@ export const LoginPage = () => {
         <p className='text text_type_main-default'>
           Вы&nbsp;— новый пользователь?
           <Button
-            onClick={() => navigate('/register')}
+            onClick={() => navigate(REGURL)}
             htmlType='button'
             type='secondary'
             size='medium'
@@ -60,7 +61,7 @@ export const LoginPage = () => {
         <p className='text text_type_main-default'>
           Забыли пароль?
           <Button
-            onClick={() => navigate('/forgot-password')}
+            onClick={() => navigate(FORGOTURL)}
             htmlType='button'
             type='secondary'
             size='medium'
