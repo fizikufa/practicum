@@ -125,7 +125,7 @@ export const loginApi = async ({ email, password }:TFormValues) => {
 export const getUserProfileApi = async () => {
   try {
     const { accessToken } = authTokens();
-    return await fetch(`${baseurl}/auth/user`, {
+    return await fetchWithRefresh<TUserResponse>(`${baseurl}/auth/user`, {
       method: 'GET',
       mode: 'cors',
       cache: 'no-cache',
@@ -136,7 +136,7 @@ export const getUserProfileApi = async () => {
       },
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
-    }).then(res => checkResponse<TUserResponse>(res));
+    });
   } catch (error) {
     console.log(`Ошибка getUserProfileApi: ${error}`);
   }
