@@ -1,11 +1,10 @@
-
 import { combineReducers } from 'redux';
+import { authReducer } from './auth';
 import { ingredientsReducer } from './ingredients';
-import { ingredientDetailsReducer } from './ingredient-details';
 import { orderReducer } from './order';
 
 export const rootReducer = combineReducers({
+  auth: authReducer,
   ingredients: ingredientsReducer,
-  ingredientDetails: ingredientDetailsReducer,
-  order: orderReducer,
+  order: orderReducer
 });

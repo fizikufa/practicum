@@ -1,39 +1,30 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { useDrag, useDrop } from "react-dnd";
-import {
-  ConstructorElement,
-  DragIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import { MOVE_INGREDIENT } from "../../../services/actions/order";
-import Style from "./burger-constructor-element.module.css";
-import { Ingredient } from "../../../utils/types";
+import React, { FC } from 'react';
+import { useDispatch } from '../../../hooks/useDispatch';
+import { useDrag, useDrop } from 'react-dnd';
+import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { TIngredient, TIngredientInOrder } from '../../../utils/types';
+import { MOVE_INGREDIENT } from '../../../utils/constants';
+import ConstructorElementsStyle from './burger-constructor-element.module.css';
 
-
-interface IBurgerConstructorElementProps {
-  elementData: Ingredient;
-  bunType: "bottom" | "top" | undefined;
+interface IConstructorElementProps {
+  elementData: TIngredientInOrder;
+  index: number;
+  bunType?: 'top'|'bottom';
   isLocked: boolean;
   bunTypeName: string;
-  index: number;
 }
 
-function BurgerConstructorElement({
-  elementData,
-  bunType,
-  isLocked,
-  bunTypeName,
-  index,
-}: IBurgerConstructorElementProps) {
+export function ConstructorElements({ elementData, bunType, isLocked, bunTypeName, index }:IConstructorElementProps) {
+
   const dispatch = useDispatch();
-  const ref = React.useRef(null);
+  const ref = React.useRef<HTMLDivElement>(null);
 
   const onDeductIngredient = (elementDataUid: string) => {
-    dispatch({ type: "REMOVE_INGREDIENT", payload: elementDataUid });
+    dispatch({ type: 'REMOVE_INGREDIENT', payload: elementDataUid });
   };
 
   const [, dropRef] = useDrop({
-    accept: "BurgerConstructorElement",
+    accept: 'ingredientInConstructor',
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId(),
@@ -43,32 +34,30 @@ function BurgerConstructorElement({
       if (!ref.current) {
         return;
       }
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      //Пока не осилил ts потом приведу в порядок
-      if (item.elementData._uid === elementData._uid) {
+
+      let typedItem;
+      if (typeof item === 'object') {
+        typedItem = item as { index: number, elementData: (TIngredient & { _uid: string }) };
+      } else { 
         return;
       }
 
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      //Пока не осилил ts потом приведу в порядок
-      const dragIndex = item.index;
+      if (typedItem.elementData._uid === elementData._uid) {
+        return;
+      }
+
+      const dragIndex = typedItem.index;
       const hoverIndex = index;
 
       const hoverBoundingRect = ref.current
-        ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          //Пока не осилил ts потом приведу в порядок
-          ref.current.getBoundingClientRect()
+        ? ref.current.getBoundingClientRect()
         : undefined;
-      const hoverMiddleY =
-        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+      
+      const hoverMiddleY = hoverBoundingRect ?
+        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2 : 0;
       const clientOffset = monitor.getClientOffset();
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      //Пока не осилил ts потом приведу в порядок
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+      const hoverClientY = clientOffset?.y && hoverBoundingRect 
+        ? clientOffset?.y - hoverBoundingRect.top : 0;
 
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return;
@@ -80,45 +69,37 @@ function BurgerConstructorElement({
       dispatch({
         type: MOVE_INGREDIENT,
         payload: {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          //Пока не осилил ts потом приведу в порядок
-          whichIngredientDroppedUid: item.elementData._uid,
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          //Пока не осилил ts потом приведу в порядок
+          whichIngredientDroppedUid: typedItem.elementData._uid,
           onWhichIngredientDroppedUid: elementData._uid,
         },
       });
     },
   });
 
-  const [, dragRef] = useDrag({   
-    type: "BurgerConstructorElement",
+  const [, dragRef] = useDrag({
+    type: 'ingredientInConstructor',
     item: () => ({ elementData, index }),
   });
 
   dragRef(dropRef(ref));
 
-
   return (
-    <div className={Style.element} ref={ref}>
-      <DragIcon type="primary" />
-      <div className={Style.elementShrink}>
+    <div className={ConstructorElementsStyle.element} ref={ref}>
+      <DragIcon type='primary' />
+      <div className={ConstructorElementsStyle.elementShrink}>
         <ConstructorElement
           type={bunType}
           isLocked={isLocked}
-          text={elementData.name + bunTypeName}
+          text={elementData.name + bunTypeName} 
           price={elementData.price}
           thumbnail={elementData.image}
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          //Пока не осилил ts потом приведу в порядок
-          handleClose={() => onDeductIngredient(elementData._uid)}
+          handleClose={ () => onDeductIngredient(elementData._uid)}
         />
-      </div>
+      </div>      
     </div>
   );
-}
+}; 
 
-export default BurgerConstructorElement;
+
+
+export default React.memo(ConstructorElements);

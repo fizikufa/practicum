@@ -1,10 +1,9 @@
 import ingredientsStyles from "./burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef, useMemo } from "react";
 import BurgerIngredientItem from "./burger-ingredients-item/burger-ingredients-item";
-import { getIngredients } from "../../services/actions/ingredients";
-import { useDispatch, useSelector } from "react-redux";
-import { Ingredient, State } from "../../utils/types";
+import { TIngredient, RootState } from "../../utils/types";
+import { useSelector } from "react-redux";
 
 function BurgerIngredient() {
   const tabsData = [
@@ -31,37 +30,39 @@ function BurgerIngredient() {
   const [currentTab, setCurrentTab] = useState("bun");
 
   const ingredients = useSelector(
-    (state: State) => state.ingredients.ingredients
+    (state: RootState) => state.ingredients.items
   );
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    //Пока не осилил ts потом приведу в порядок
-    dispatch(getIngredients());
-  }, []);
+  const ingredientLength = ingredients.length;
 
-  let ingredientLength = ingredients.length;
-  let bunLength = ingredients.filter(
-    (ingredient: Ingredient) => ingredient.type === "bun"
-  ).length;
-  let sauceLength = ingredients.filter(
-    (ingredient: Ingredient) => ingredient.type === "sauce"
-  ).length;
-  let mainLength = ingredients.filter(
-    (ingredient: Ingredient) => ingredient.type === "main"
-  ).length;
-
-  const mainRef = useRef<HTMLDivElement>(null);
+  const bunLength = useMemo<number>(
+    () =>
+      ingredients.filter((ingredient: TIngredient) => ingredient.type === "bun")
+        .length,
+    [ingredients]
+  );
+  const sauceLength = useMemo<number>(
+    () =>
+      ingredients.filter(
+        (ingredient: TIngredient) => ingredient.type === "sauce"
+      ).length,
+    [ingredients]
+  );
+  const mainLength = useMemo<number>(
+    () =>
+      ingredients.filter(
+        (ingredient: TIngredient) => ingredient.type === "main"
+      ).length,
+    [ingredients]
+  );
 
   const handleScroll = (event: React.UIEvent<HTMLElement>) => {
-    let height = event.currentTarget.offsetHeight;
-    let k = height / ingredientLength;
+    const height = event.currentTarget.offsetHeight;
+    const k = height / ingredientLength;
 
     if (
       event.currentTarget.scrollTop >
-      k * (bunLength +sauceLength + mainLength)
+      k * (bunLength + sauceLength + mainLength)
     ) {
       setCurrentTab("main");
       return;
@@ -73,14 +74,14 @@ function BurgerIngredient() {
     setCurrentTab("bun");
   };
 
-
-  ////Почемуто не работает сдвиг скрола, разберусь позже
-  const setTab = (name: string) => {
-      setCurrentTab(name);      
-      mainRef.current?.scrollTo({
-        top: tabsData.find(tab => tab.name === name)?.ref.current?.offsetTop,
-        left: 0,
+  const setTab = (type: string) => {
+    setCurrentTab(type);
+    tabsData
+      .find((tab) => tab.type === type)
+      ?.ref.current?.scrollIntoView({
         behavior: "smooth",
+        block: "start",
+        inline: "nearest",
       });
   };
 
@@ -101,11 +102,7 @@ function BurgerIngredient() {
       </div>
 
       {ingredients && (
-        <div
-          className={ingredientsStyles.components}
-          onScroll={handleScroll}
-          ref={mainRef}
-        >
+        <div className={ingredientsStyles.components} onScroll={handleScroll}>
           {tabsData!.map((tab) => (
             <section key={tab._id} ref={tab.ref}>
               <p className={ingredientsStyles.tab_head}>{tab.name}</p>
@@ -115,9 +112,9 @@ function BurgerIngredient() {
               >
                 {ingredients
                   .filter(
-                    (ingredient: Ingredient) => ingredient.type === tab.type
+                    (ingredient: TIngredient) => ingredient.type === tab.type
                   )
-                  .map((ingredient: Ingredient) => (
+                  .map((ingredient: TIngredient) => (
                     <BurgerIngredientItem
                       key={ingredient._id}
                       ingredient={ingredient}

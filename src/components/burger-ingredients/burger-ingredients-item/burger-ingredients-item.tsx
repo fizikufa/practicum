@@ -1,96 +1,73 @@
-import itemStyles from "./burger-ingredients-item.module.css";
-import {
-  CurrencyIcon,
-  Counter,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import { Ingredient } from "../../../utils/types";
-import Modal from "../../modal/modal";
-import IngredientDetails from "../ingredient-details/ingredient-details";
-import { useSelector, useDispatch } from "react-redux";
-import { useDrag } from "react-dnd";
-import {
-  OPEN_INGREDIENT_DETAILS,
-  CLOSE_INGREDIENT_DETAILS,
-} from "../../../services/actions/ingredients";
-import { useCallback } from "react";
+import React, { useCallback, FC } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useSelector } from '../../../hooks/useSelector';
+import { useDrag } from 'react-dnd';
+import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { TIngredient } from '../../../utils/types';
+import { getBurgerData } from '../../../utils/state';
+import IngredientItemStyle from './burger-ingredients-item.module.css';
 
-interface IBurgerIngredientItemProps {
-  ingredient: Ingredient;
+
+interface IBurgerIngredientProps {
+  ingredient: TIngredient;
 }
 
-function BurgerIngredientItem({ ingredient }: IBurgerIngredientItemProps) {
-  const dispatch = useDispatch();
-  const ingredientDetails = useSelector(
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    //Пока не осилил ts потом приведу в порядок
-    (state) => state.ingredientDetails.ingredientDetails
-  );
+export const BurgerIngredientsItem: FC<IBurgerIngredientProps> = ( { ingredient } ) => {
 
+  const navigate = useNavigate();
+  const location = useLocation();  
 
+  const orderData = useSelector(getBurgerData);
 
-  // Содержание заказа
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  //Пока не осилил ts потом приведу в порядок
-  const orderData = useSelector((state) => state.order.orderData);
-
-  const orderCount = useCallback(
-    (ingredient: Ingredient) => {
+  const count = useCallback(
+    (ingredient: TIngredient) => {
       const { _id, type } = ingredient;
       const ingredientsCount = orderData.filter(
-        (element: Ingredient) => element._id === _id
+        (el) => el._id === _id
       ).length;
-      return type === "bun" ? ingredientsCount * 2 : ingredientsCount;
+      return type === 'bun' ? ingredientsCount * 2 : ingredientsCount;
     },
     [orderData]
   );
 
-  const count = orderCount(ingredient);
 
-  const handleOpenIngredientModal = () => {
-    dispatch({ type: OPEN_INGREDIENT_DETAILS, payload: ingredient });
-  };
+  const handleOpenIngredientModal = useCallback(() => {
+    navigate(`/ingredients/${ingredient._id}`, {
+      state: { ingredientModal: location },
+    });
+  }, [navigate, location, ingredient._id]);
 
-  const handleCloseIngredientModal = () => {
-    dispatch({ type: CLOSE_INGREDIENT_DETAILS });
-  };
 
-  //  Ингредиенты перетаскиваемые
   const [, dragRef] = useDrag({
-    type: "ingredient",
-    item: ingredient,
+    type: 'ingredient',
+    item: ingredient
   });
+
+
 
   return (
     <>
       <div
-        className={`${itemStyles.item} ml-4 mr-5 mb-10 mt-6`}
+        className={`${IngredientItemStyle.item} ml-4 mr-5 mb-10 mt-6`}
         onClick={handleOpenIngredientModal}
         ref={dragRef}
       >
         <img
-          className={`${itemStyles.item_image} ml-4 mr-5`}
+          className={`${IngredientItemStyle.item_image} ml-4 mr-5`}
           alt={ingredient.name}
           src={ingredient.image}
         />
-        <div className={`${itemStyles.price} mb-1 mt-1`}>
+        <div className={`${IngredientItemStyle.price} mb-1 mt-1`}>
           <p className="text text_type_digits-small mr-2">{ingredient.price}</p>
           <CurrencyIcon type="primary" />
         </div>
-        <p className={itemStyles.name}>{ingredient.name}</p>
-        {count > 0 && <Counter count={count} size="default" />}
-      </div>
-      {ingredientDetails === ingredient && (
-        <Modal
-          onClick={handleCloseIngredientModal}
-          title={"Детали ингредиента"}
-        >
-          <IngredientDetails ingredient={ingredient} />
-        </Modal>
-      )}
+        <p className={IngredientItemStyle.name}>{ingredient.name}</p>
+        {count(ingredient) > 0 && <Counter count={count(ingredient)} size="default" />}
+      </div>     
     </>
   );
-}
 
-export default BurgerIngredientItem;
+};
+
+
+export default React.memo(BurgerIngredientsItem);
