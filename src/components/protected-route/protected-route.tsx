@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, FC, ReactElement } from 'react';
+import { memo, useEffect, useCallback, FC, ReactElement } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useSelector } from '../../hooks/useSelector';
 import { useDispatch } from '../../hooks/useDispatch';
@@ -16,7 +16,6 @@ export const ProtectedRouteElement: FC<IProtectedRoute> = ({ element, showWhen }
   const dispatch = useDispatch();
   const location = useLocation();
   const { state: locationState } = useLocation();
-  //@ts-ignore
   const user = useSelector((state) => state.auth.user);
   const { accessToken, refreshToken } = authTokens();
 
@@ -70,4 +69,4 @@ export const ProtectedRouteElement: FC<IProtectedRoute> = ({ element, showWhen }
 };
 
 
-export default React.memo(ProtectedRouteElement);
+export default memo(ProtectedRouteElement);

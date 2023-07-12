@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { useRef, memo } from 'react';
 import { useDispatch } from '../../../hooks/useDispatch';
 import { useDrag, useDrop } from 'react-dnd';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -17,7 +17,7 @@ interface IConstructorElementProps {
 export function ConstructorElements({ elementData, bunType, isLocked, bunTypeName, index }:IConstructorElementProps) {
 
   const dispatch = useDispatch();
-  const ref = React.useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   const onDeductIngredient = (elementDataUid: string) => {
     dispatch({ type: 'REMOVE_INGREDIENT', payload: elementDataUid });
@@ -100,6 +100,4 @@ export function ConstructorElements({ elementData, bunType, isLocked, bunTypeNam
   );
 }; 
 
-
-
-export default React.memo(ConstructorElements);
+export default memo(ConstructorElements);

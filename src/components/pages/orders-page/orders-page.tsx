@@ -1,6 +1,5 @@
 
 
-import  AppHeader  from '../../app-header/app-header';
 import { ProfileNav } from '../../profile-nav/profile-nav';
 import OrdersPageStyle from './orders-page.module.css';
 

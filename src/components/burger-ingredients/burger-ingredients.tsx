@@ -29,8 +29,8 @@ function BurgerIngredient() {
 
   const [currentTab, setCurrentTab] = useState("bun");
 
-  const ingredients = useSelector(
-    (state: RootState) => state.ingredients.items
+  const ingredients = useSelector<RootState, TIngredient[]>(
+    (state) => state.ingredients.items
   );
 
   const ingredientLength = ingredients.length;

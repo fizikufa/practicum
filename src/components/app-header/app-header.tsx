@@ -1,5 +1,4 @@
-
-import React, { FC } from 'react';
+import { FC, memo } from 'react';
 import { useLocation, NavLink, matchPath } from 'react-router-dom';
 import { Logo, BurgerIcon, ListIcon,  ProfileIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import { LOGINURL, REGURL, PROFILEURL, HOMEURL, FEEDURL, PROFILEORDERSURL,  } from '../../utils/constants';
@@ -15,7 +14,6 @@ export const AppHeader: FC = () => {
   const activeLogin = matchPath(location.pathname, LOGINURL);
   const activeRegister = matchPath(location.pathname, REGURL);
   const activeProfile = activeProfileHome || activeOrders || activeLogin || activeRegister;
-
 
   return (
     <header className={`mb-10 pt-4 pb-4 ${AppHeaderStyle.header}`}>  
@@ -40,4 +38,4 @@ export const AppHeader: FC = () => {
   );
 }
 
-export default React.memo(AppHeader);
+export default memo(AppHeader);

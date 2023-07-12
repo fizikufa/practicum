@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC } from 'react';
 import { createPortal } from 'react-dom';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import {CloseIcon} from '@ya.praktikum/react-developer-burger-ui-components'
@@ -12,7 +12,7 @@ interface IModalProps {
 
 const modalRoot = document.getElementById('modals')!;
 
-const Modal:React.FC<React.PropsWithChildren<IModalProps>> = ({children, onClick,  title}) => {
+const Modal:FC<React.PropsWithChildren<IModalProps>> = ({children, onClick,  title}) => {
 
 
   return createPortal(

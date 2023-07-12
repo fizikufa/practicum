@@ -1,4 +1,3 @@
-import  AppHeader  from '../../app-header/app-header';
 import { IngredientDetails } from '../../burger-ingredients/ingredient-details/ingredient-details';
 import IngredientStyle from './ingredient-page.module.css';
 

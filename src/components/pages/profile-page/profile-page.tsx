@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { useDispatch } from '../../../hooks/useDispatch';
 import { useSelector } from '../../../hooks/useSelector';
 import { useForm } from '../../../hooks/useForm';
-import  AppHeader  from '../../app-header/app-header';
 import { ProfileNav } from '../../profile-nav/profile-nav';
 import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { updateUserProfile } from '../../../services/actions/auth';

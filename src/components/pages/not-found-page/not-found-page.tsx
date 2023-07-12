@@ -1,7 +1,5 @@
-//  Компонент 'Страница не найдена' реализую самостоятельно   //
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
-//  Стили пока беру из логина  //
 import NotFoundStyle from './not-found-page.module.css';
 
 export const NotFoundPage = () => {

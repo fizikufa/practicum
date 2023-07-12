@@ -68,8 +68,6 @@ export const dispatchOrderOK = (
   payload,
 });
 
-
-
 export const dispatchOrder = (orderDataID: string[]) => {
   return function (dispatch: AppDispatch) {
     dispatch({
