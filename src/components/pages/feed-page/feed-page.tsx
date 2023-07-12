@@ -1,4 +1,3 @@
-import  AppHeader  from '../../app-header/app-header';
 import FeedStyles from './feed-page.module.css';
 
 export const FeedPage = () => {

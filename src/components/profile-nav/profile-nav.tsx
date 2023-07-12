@@ -1,5 +1,5 @@
 //  Хуки для навигации и подсветки активного меню  //
-import React, { FC } from 'react';
+import { memo, FC } from 'react';
 import { useLocation, NavLink, matchPath } from 'react-router-dom';
 import { useDispatch } from '../../hooks/useDispatch';
 import { authTokens } from '../../utils/auth';
@@ -28,8 +28,7 @@ export const ProfileNav:FC<IProfileNav> = ({ navTip }) => {
     dispatch(logoutUser(refreshToken));
   };
 
-  return (    
-    
+  return (      
     <div className={ProfileNavSyle.container}>
       <nav className={`mb-20 ${ProfileNavSyle.navbar}`}>
         <NavLink
@@ -63,4 +62,4 @@ export const ProfileNav:FC<IProfileNav> = ({ navTip }) => {
   );
 };
 
-export default React.memo(ProfileNav);
+export default memo(ProfileNav);

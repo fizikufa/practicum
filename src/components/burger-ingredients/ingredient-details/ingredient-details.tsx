@@ -1,11 +1,9 @@
-
 import { useState, useEffect } from 'react';
 import { useSelector } from '../../../hooks/useSelector';
 import { useNavigate, useParams } from 'react-router-dom';
 import { IngredientNutrition } from '../Ingredient-nutrition/IngredientNutrition';
 import { TIngredient } from '../../../utils/types';
 import ingredientDetailsStyle from './ingredient-details.module.css';
-
 
 export const IngredientDetails = () => {
   const navigate = useNavigate();

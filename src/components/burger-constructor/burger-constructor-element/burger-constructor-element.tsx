@@ -100,6 +100,4 @@ export function ConstructorElements({ elementData, bunType, isLocked, bunTypeNam
   );
 }; 
 
-
-
 export default memo(ConstructorElements);

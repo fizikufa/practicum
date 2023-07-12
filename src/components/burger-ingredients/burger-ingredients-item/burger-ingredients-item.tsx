@@ -1,4 +1,4 @@
-import React, { useCallback, FC } from 'react';
+import { memo, useCallback, FC } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector } from '../../../hooks/useSelector';
 import { useDrag } from 'react-dnd';
@@ -6,7 +6,6 @@ import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-c
 import { TIngredient } from '../../../utils/types';
 import { getBurgerData } from '../../../utils/state';
 import IngredientItemStyle from './burger-ingredients-item.module.css';
-
 
 interface IBurgerIngredientProps {
   ingredient: TIngredient;
@@ -30,7 +29,6 @@ export const BurgerIngredientsItem: FC<IBurgerIngredientProps> = ( { ingredient 
     [orderData]
   );
 
-
   const handleOpenIngredientModal = useCallback(() => {
     navigate(`/ingredients/${ingredient._id}`, {
       state: { ingredientModal: location },
@@ -42,8 +40,6 @@ export const BurgerIngredientsItem: FC<IBurgerIngredientProps> = ( { ingredient 
     type: 'ingredient',
     item: ingredient
   });
-
-
 
   return (
     <>
@@ -69,5 +65,4 @@ export const BurgerIngredientsItem: FC<IBurgerIngredientProps> = ( { ingredient 
 
 };
 
-
-export default React.memo(BurgerIngredientsItem);
+export default memo(BurgerIngredientsItem);

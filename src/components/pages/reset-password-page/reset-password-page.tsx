@@ -4,7 +4,6 @@ import { useForm } from '../../../hooks/useForm';
 
 import { Navigate, useNavigate } from 'react-router-dom';
 import { changePassword } from '../../../services/actions/auth';
-import  AppHeader  from '../../app-header/app-header';
 import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { getResetCode } from '../../../utils/state'
 import PasswordStyles from './reset-password-page.module.css';

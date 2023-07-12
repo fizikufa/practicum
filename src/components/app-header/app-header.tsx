@@ -1,4 +1,3 @@
-
 import { FC, memo } from 'react';
 import { useLocation, NavLink, matchPath } from 'react-router-dom';
 import { Logo, BurgerIcon, ListIcon,  ProfileIcon} from '@ya.praktikum/react-developer-burger-ui-components';
@@ -15,7 +14,6 @@ export const AppHeader: FC = () => {
   const activeLogin = matchPath(location.pathname, LOGINURL);
   const activeRegister = matchPath(location.pathname, REGURL);
   const activeProfile = activeProfileHome || activeOrders || activeLogin || activeRegister;
-
 
   return (
     <header className={`mb-10 pt-4 pb-4 ${AppHeaderStyle.header}`}>  

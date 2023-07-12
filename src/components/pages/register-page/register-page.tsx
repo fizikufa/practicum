@@ -1,7 +1,6 @@
 import { useDispatch } from '../../../hooks/useDispatch';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from '../../../hooks/useForm';
-import  AppHeader  from '../../app-header/app-header';
 import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { registerUser } from '../../../services/actions/auth';
 import RegisterStyle from './register-page.module.css';

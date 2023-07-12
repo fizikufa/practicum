@@ -1,6 +1,5 @@
-import React, { FC } from 'react';
+import { memo, FC } from 'react';
 import IngredientNutritionStyle from './IngredientNutrition.module.css';
-
 
 interface INutritionProps {
   amount: number;
@@ -16,4 +15,4 @@ export const IngredientNutrition: FC<INutritionProps> = ({ type, amount }) => {
   )
 }
 
-export default React.memo(IngredientNutrition);
+export default memo(IngredientNutrition);
