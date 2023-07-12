@@ -11,7 +11,7 @@ export const IngredientDetails = () => {
   const navigate = useNavigate();
 
   const { id } = useParams();
-  const { items } = useSelector((state: any) => state.ingredients);
+  const { items } = useSelector((state) => state.ingredients);
   const [item, setItem] = useState<TIngredient>();
 
   useEffect(

@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from "react";
+import { FC, useMemo, memo } from "react";
 import { useNavigate } from "react-router";
 import { useDispatch } from "../../hooks/useDispatch";
 import { useSelector } from "../../hooks/useSelector";
@@ -13,7 +13,7 @@ import {
 import Modal from "../modal/modal";
 import { dispatchOrder } from "../../services/actions/order";
 import { v4 as uuidv4 } from "uuid";
-import { ADD_BUN, ADD_INGREDIENT, DELETE_ORDER } from "../../utils/constants"; //
+import { ADD_BUN, ADD_INGREDIENT, DELETE_ORDER } from "../../utils/constants"; 
 import { getUser, getBurgerData, getOrderNumber } from "../../utils/state";
 import { TIngredient } from "../../utils/types";
 import burgerConstructorStyle from "./burger-constructor.module.css";
@@ -94,7 +94,7 @@ export const BurgerConstructor: FC = () => {
             ) : (
               <div className={burgerConstructorStyle.element__bun}>
                 <div className={burgerConstructorStyle.empty_bun_top}>
-                  <p className="text text_type_main-default text_color_inactive">
+                  <p className="text text_type_main-default">
                     Добавьте булку
                   </p>
                 </div>
@@ -105,7 +105,7 @@ export const BurgerConstructor: FC = () => {
               {ingredientsMidStuff.map((element, index) => {
                 return (
                   <li
-                    key={element._id}
+                    key={element._uid}
                     className={burgerConstructorStyle.element}
                   >
                     <ConstructorElements
@@ -121,7 +121,7 @@ export const BurgerConstructor: FC = () => {
               {ingredientsMidStuff.length === 0 && (                
                 <li className={burgerConstructorStyle.element}>
                   <div className={burgerConstructorStyle.empty_filling}>
-                    <p className="text text_type_main-default text_color_inactive">
+                    <p className="text text_type_main-default">
                       Добавьте ингредиенты
                     </p>
                   </div>
@@ -141,7 +141,7 @@ export const BurgerConstructor: FC = () => {
             ) : (
               <div className={burgerConstructorStyle.element__bun}>
                 <div className={burgerConstructorStyle.empty_bun_bottom}>
-                  <p className="text text_type_main-default text_color_inactive">
+                  <p className="text text_type_main-default">
                     Добавьте булку
                   </p>
                 </div>
@@ -179,4 +179,4 @@ export const BurgerConstructor: FC = () => {
   );
 };
 
-export default React.memo(BurgerConstructor);
+export default memo(BurgerConstructor);

@@ -31,21 +31,7 @@ export type TIngredient = {
   }  
 
   //объект ингредиента в заказе
-  export type TIngredientInOrder = {
-    _uid: string; 
-    _id: string; 
-    name: string;
-    image: string;
-    image_mobile: string;
-    image_large: string;
-    price: number;
-    type: string;
-    calories: number;
-    proteins: number;
-    fat: number;
-    carbohydrates: number;
-    __v: number;
-  }
+  export type TIngredientInOrder = TIngredient & { _uid: string; }
 
   export interface TIngredients{
     ingredients: TIngredient[], 
@@ -90,7 +76,7 @@ export type TOrder = {
 
 
 export type TResponse<T> = {
-  user(user: any): import('../services/actions/auth').IUpdateUserProfileOK;
+  user: import('../services/actions/auth').IUpdateUserProfileOK;
   success: boolean;
 } & T;
 

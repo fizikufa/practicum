@@ -36,18 +36,19 @@
 .element {
   margin: 0;
   padding: 0;
+
   min-width: 560px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  gap: 8px;
+  gap: 0px;
   cursor: move;
 }
 
 .element_midstuff {
   max-height: 454px;
   margin: 0;
-  padding-right: 8px;
+  padding-right: 16px;
   display: flex;
   gap: 10px;
   flex-direction: column;
@@ -115,54 +116,7 @@
   height: 95%;
 }
 
-.element_old {
-  display: grid;
-  gap: 8px;
-  grid-template-columns: auto auto;
-  justify-content: end;
-  align-items: center;
-}
-
-.elements_midstuff_old {
-  height: calc(100vh - 604px);
-  display: grid;
-  gap: 16px;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
-.elements_midstuff_old::-webkit-scrollbar {
-  width: 8px;
-  background-color: var(--color-scrollbar);
-}
-
-.elements_midstuff_old::-webkit-scrollbar-thumb {
-  background-color: var(--color-scrollbar-thumb);
-}
-
-
-.type_old {
-  width: 568px;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  cursor: pointer;
-}
-
-.elements_old {
-  display: grid;
-  gap: 16px;
-}
-
-.container_old {
-  display: flex;
-  align-items: center;
-}
-
-.empty_filling, .empty_bun_top, .empty_bun_bottom {
-
+.empty_filling, .empty_bun_top, .empty_bun_bottom {  
 	width: 100%;
 	height: 80px;
 	background: var(--background);
@@ -170,7 +124,7 @@
 	justify-content: center;
 	align-items: center;
 	opacity: 0.3;
-	border: 1px dashed var(--text-inactive-color);
+	border: 1px dashed ;
 }
 
 .empty_filling {

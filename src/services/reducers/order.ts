@@ -72,11 +72,7 @@ export const orderReducer = (state = initialOrderState, action:TOrderActions):TO
         (ingredient) => ingredient._uid === onWhichIngredientDroppedUid
       );
 
-      const draggedItem = burgerData[draggedItemIndex];
-      const hoveredItem = burgerData[hoveredItemIndex];
-
-      burgerData[draggedItemIndex] = hoveredItem;
-      burgerData[hoveredItemIndex] = draggedItem;
+      [burgerData[draggedItemIndex],burgerData[hoveredItemIndex]]=[burgerData[hoveredItemIndex],burgerData[draggedItemIndex]];  
 
       return {
         ...state,

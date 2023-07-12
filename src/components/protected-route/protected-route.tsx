@@ -16,7 +16,6 @@ export const ProtectedRouteElement: FC<IProtectedRoute> = ({ element, showWhen }
   const dispatch = useDispatch();
   const location = useLocation();
   const { state: locationState } = useLocation();
-  //@ts-ignore
   const user = useSelector((state) => state.auth.user);
   const { accessToken, refreshToken } = authTokens();
 
