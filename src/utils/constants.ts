@@ -1,4 +1,6 @@
 export const baseurl = 'https://norma.nomoreparties.space/api';
+export const wsurl = 'wss://norma.nomoreparties.space/orders/all';
+export const wsurlauth = 'wss://norma.nomoreparties.space/orders';
 
 //  Константы для API ингредиентов
 export const GET_INGREDIENTS_API = 'GET_INGREDIENTS_API';
@@ -19,6 +21,7 @@ export const FORGOTURL = '/forgot-password';
 export const RESETPASSURL = '/reset-password';
 export const INGREDIENTSURL = '/ingredients';
 export const FEEDURL = '/feed';
+export const FEEDID = '/feed/:id';
 export const ORDERSURL = '/orders';
 export const PROFILEORDERSURL = '/profile/orders';
 export const ORDERSID = '/profile/orders/:id';
@@ -63,3 +66,20 @@ export const PASSWORD_RESET_CODE_API_FAIL = 'PASSWORD_RESET_CODE_API_FAIL';
 export const LOGOUT_USER_API = 'LOGOUT_USER_API';
 export const LOGOUT_USER_API_OK = 'LOGOUT_USER_API_OK';
 export const LOGOUT_USER_API_FAIL = 'LOGOUT_USER_API_FAIL';
+
+//  Константы для WebSockets 
+export const WS_CONNECTION_START: 'WS_CONNECTION_START' = 'WS_CONNECTION_START';
+export const WS_CONNECTION_SUCCESS: 'WS_CONNECTION_SUCCESS' = 'WS_CONNECTION_SUCCESS';
+export const WS_CONNECTION_ERROR: 'WS_CONNECTION_ERROR' = 'WS_CONNECTION_ERROR';
+export const WS_CONNECTION_CLOSE: 'WS_CONNECTION_CLOSE' = 'WS_CONNECTION_CLOSE';
+export const WS_CONNECTION_CLOSED: 'WS_CONNECTION_CLOSED' = 'WS_CONNECTION_CLOSED';
+export const WS_GET_MESSAGE: 'WS_GET_MESSAGE' = 'WS_GET_MESSAGE';
+export const WS_SEND_MESSAGE: 'WS_SEND_MESSAGE' = 'WS_SEND_MESSAGE';
+
+export const WS_CONNECTION_START_AUTH: 'WS_CONNECTION_START_AUTH' = 'WS_CONNECTION_START_AUTH';
+export const WS_CONNECTION_SUCCESS_AUTH: 'WS_CONNECTION_SUCCESS_AUTH' = 'WS_CONNECTION_SUCCESS_AUTH';
+export const WS_CONNECTION_ERROR_AUTH: 'WS_CONNECTION_ERROR_AUTH' = 'WS_CONNECTION_ERROR_AUTH';
+export const WS_CONNECTION_CLOSE_AUTH: 'WS_CONNECTION_CLOSE_AUTH' = 'WS_CONNECTION_CLOSE_AUTH';
+export const WS_CONNECTION_CLOSED_AUTH: 'WS_CONNECTION_CLOSED_AUTH' = 'WS_CONNECTION_CLOSED_AUTH';
+export const WS_GET_MESSAGE_AUTH: 'WS_GET_MESSAGE_AUTH' = 'WS_GET_MESSAGE_AUTH';
+export const WS_SEND_MESSAGE_AUTH: 'WS_SEND_MESSAGE_AUTH' = 'WS_SEND_MESSAGE_AUTH';

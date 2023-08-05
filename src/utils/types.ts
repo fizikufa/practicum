@@ -5,6 +5,7 @@ import { ThunkAction } from 'redux-thunk';
 import { TIngredientActions } from '../services/actions/ingredients';
 import { TAuthActions } from '../services/actions/auth';
 import { TOrderActions } from '../services/actions/order';
+import { wsActions, wsActionsAuth } from './store'
 
 type TAppActions = TIngredientActions | TOrderActions | TAuthActions;
 
@@ -102,4 +103,18 @@ export type TIngredientResponse = {
 
 export type TOrderResponse = {
   order: TOrder;
+};
+
+
+export type TWSAction = typeof wsActions | typeof wsActionsAuth;
+
+export type TWsMessage = {
+  success?: boolean;
+  orders: TOrder[];
+  total: number|null;
+  totalToday: number|null;
+};
+
+export type TIngredientCount = {
+  [key: string]: TIngredient & { count: number };
 };

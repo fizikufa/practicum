@@ -1,31 +1,32 @@
+/* Основной flex-контейнер */
+.container {
+  margin: 0 auto;
+  padding-left: calc((100vw - 1320px)/2);
+  padding-right: calc((100vw - 1320px)/2);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .profile__container {
-    margin-top: 120px;
-    padding-left: calc((100vw - 1320px)/2);
-    padding-right: calc((100vw - 1320px)/2);
-    display: flex;
-    flex-direction: row;
-  }
-  
-  .profile__form {
-    display: grid;
-    row-gap: 24px;
-    justify-items: center;
-  }
-  
-  .profile__button_container {
-    display: flex;
-    justify-self: end;
-  }
-  
-  .profile__tab_flex {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 320px;
-  }
-  
-  .profile__tab_link {
-    text-decoration: none;
-    text-align: start;
-    padding: 17px 0;
-  }
+  padding-left: calc((100vw - 1320px)/2);
+  padding-right: calc((100vw - 1320px)/2);
+  display: flex;
+  flex-direction: row;
+}
+
+.order_container {
+  max-height: calc(100vh - 208px);
+  display: grid;
+  row-gap: 24px;
+  overflow-y: scroll;
+}
+
+.order_container::-webkit-scrollbar {
+  width: 8px;
+  background-color: var(--color-scrollbar);
+}
+
+.order_container::-webkit-scrollbar-thumb {
+  background-color: var(--color-scrollbar-thumb);
+}
