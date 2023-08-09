@@ -1,15 +1,14 @@
 
-import { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useDispatch } from '../../../hooks/useDispatch';
 import { useSelector } from '../../../hooks/useSelector';
 import { useForm } from '../../../hooks/useForm';
-import { ProfileNav } from '../../profile-nav/profile-nav';
-import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ProfileNav } from '../../../components/profile-nav/profile-nav';
 import { updateUserProfile } from '../../../services/actions/auth';
+import { Button, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import ProfileStyle from './profile-page.module.css';
 
-export const ProfilePage = () => {
-
+export const ProfilePage:FC = () => {
   const dispatch = useDispatch(); 
   const user = useSelector((state) => state.auth.user);
   let passwordValue = '******';
@@ -38,16 +37,18 @@ export const ProfilePage = () => {
   };
 
   const cancelSubmit = () => {
-    setData({
-      email: user?.email,
-      name: user?.name,
-      password: passwordValue,
-    });
+    if (user) {
+      setData({
+        email: user.email,
+        name: user.name,
+        password: passwordValue,
+      });
+    }
     setIsChanged(false);
   };
 
-
   return (
+    <div className='pt-10 pr-10 pb-10 pl-10'>
       <div className={ProfileStyle.profile__container}>
         <ProfileNav
           navTip={'В этом разделе вы можете изменить свои персональные данные'}
@@ -99,5 +100,6 @@ export const ProfilePage = () => {
           </form>
         </div>
       </div>
+    </div>
   );
 }

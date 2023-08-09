@@ -1,8 +1,9 @@
-import { TUser, TIngredient, TIngredientInOrder, TOrder, Order  } from './types';
+import { RootState } from './types';
 
-export const getUser = (state: { auth: { user: TUser|null; }; }) => state.auth.user;
-export const getItems = (state: { ingredients: { ingredients: TIngredient[]; }; }) => state.ingredients.ingredients;
-export const getResetCode = (state: { auth: { hasResetCode: boolean; }; }) => state.auth.hasResetCode;
-export const getOrders = (state: { order: { orderData: TOrder[]; }; }) => state.order.orderData;
-export const getBurgerData = (state: { order: { orderData: TIngredientInOrder[]; }; }) => state.order.orderData;
-export const getOrderNumber= (state: { order: {orderNumber:  null|number;}; }) => state.order.orderNumber;
+export const getUser = (state: RootState) => state.auth.user;
+export const getItems = (state: RootState) => state.ingredients.items;
+export const getResetCode = (state: RootState) => state.auth.hasResetCode;
+export const getOrders = (state: RootState) => state.ws.orders;
+export const getOrdersLogged = (state: RootState) => state.wsAuth.orders;
+export const getBurgerData = (state: RootState) => state.order.orderData;
+export const getOrderNumber= (state: RootState) => state.order.orderNumber;
