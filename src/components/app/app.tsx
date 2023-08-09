@@ -39,6 +39,7 @@ const App = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const navigate1 = () => navigate(-1);
 
   useEffect(() => {
     dispatch(getIngredients());
@@ -113,21 +114,21 @@ const App = () => {
         <Route
           path={INGREDIENTSID}
           element={
-            <Modal onClick={(): void => navigate(-1)} title='Детали ингредиента'>
+            <Modal onClick={navigate1} title='Детали ингредиента'>
               <IngredientDetails />
             </Modal>
           }
         />
         <Route
           path={FEEDID} element={
-            <Modal onClick={() => navigate(-1)} title=''>
+            <Modal onClick={navigate1} title=''>
               <Order />
             </Modal>
           }
         />
         <Route
           path={ORDERSID} element={
-            <Modal onClick={() => navigate(-1)} title=''>
+            <Modal onClick={navigate1} title=''>
               <Order />
             </Modal>
           }
