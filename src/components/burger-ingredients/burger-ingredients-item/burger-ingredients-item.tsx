@@ -29,12 +29,13 @@ export const BurgerIngredientsItem: FC<IBurgerIngredientProps> = ( { ingredient 
     [orderData]
   );
 
-  const handleOpenIngredientModal = useCallback(() => {
-    navigate(`/ingredients/${ingredient._id}`, {
-      state: { ingredientModal: location },
-    });
-  }, [navigate, location, ingredient._id]);
+ 
 
+  const handleOpenIngredientModal = () => {
+    navigate(`/ingredients/${ingredient._id}`, {
+      state: { background: location },
+    });
+  };
 
   const [, dragRef] = useDrag({
     type: 'ingredient',

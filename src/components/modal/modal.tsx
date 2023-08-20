@@ -18,7 +18,7 @@ const Modal:FC<React.PropsWithChildren<IModalProps>> = ({children, onClick,  tit
   return createPortal(
     <div className={modalStyle.container}>
         <div className={modalStyle.modal}>
-            <div className={modalStyle.close + " mt-10 mr-10"} onClick={onClick}><CloseIcon type="primary" /></div>
+            <div id='closeSvg' className={modalStyle.close + " mt-10 mr-10"} onClick={onClick}><CloseIcon type="primary" /></div>
             <p className={modalStyle.title}>{title}</p>
             {children}
         </div>
