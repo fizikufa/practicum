@@ -18,7 +18,7 @@ const Modal:FC<React.PropsWithChildren<IModalProps>> = ({children, onClick,  tit
     if (event.key === "Escape") {
       onClick();
     }
-  }, [])
+  }, [onClick])
 
   useEffect(() => {
     document.addEventListener("keydown", escFunction, false);
