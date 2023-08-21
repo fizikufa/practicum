@@ -2,10 +2,11 @@
 /// <reference types="cypress" />
 // @ts-check
 import "@4tw/cypress-drag-drop";
+import { burgerConstrucrorElementClass, burgerIngredientClass, modalContainerClass } from "../constants";
 
 describe("Работает конструктор заказа бургера", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:3000");
+    cy.visit('/');
   });
 
   it("содержит заголовок Соберите бургер", () => {
@@ -13,17 +14,17 @@ describe("Работает конструктор заказа бургера", 
   });
 
   it("содержит ингредиент, открывает и закрывает попап", () => {
-    cy.get("[class^=burger-ingredients-item_name__]").first().as("ingredient");
+    cy.get(burgerIngredientClass).first().as("ingredient");
     cy.get("@ingredient").click();
-    cy.get("[class^=modal_container__]").as("modal");
+    cy.get(modalContainerClass).as("modal");
     cy.get("@modal").find("p").contains("Детали ингредиента");
     cy.get("@modal").find("svg").click();
   });
 
   it("список ингредиентов содержит булки", () => {
-    cy.get("[class^=burger-ingredients-item_name__]").first().as("firstBun");
+    cy.get(burgerIngredientClass).first().as("firstBun");
     cy.get("@firstBun").contains("булка").should('exist');
-    cy.get("[class^=burger-ingredients-item_name__]").eq(1).as("secondBun");
+    cy.get(burgerIngredientClass).eq(1).as("secondBun");
     cy.get("@secondBun").contains("булка").should('exist');
   });
 
@@ -33,8 +34,8 @@ describe("Работает конструктор заказа бургера", 
   });
 
   it("Работает DnD, замена, логин, отправка и подтверждение заказа", () => {
-    cy.get("[class^=burger-ingredients-item_name__]").as("ingredient");
-    cy.get("[class^=burger-constructor_element__list__]").as("elementList");  
+    cy.get(burgerIngredientClass).as("ingredient");
+    cy.get(burgerConstrucrorElementClass).as("elementList");  
     cy.get("@ingredient").eq(0).drag("@elementList");
     cy.get("@ingredient").eq(3).drag("@elementList");
     cy.get("@ingredient").eq(7).drag("@elementList");
@@ -50,7 +51,7 @@ describe("Работает конструктор заказа бургера", 
     cy.get("form").find("button").contains("Войти").as("loginBtn");
     cy.get("@loginBtn").click();
     cy.get("button").contains("Оформить заказ").click();
-    cy.get("[class^=modal_container__]", { timeout: 40000 }).as("modal");
+    cy.get(modalContainerClass, { timeout: 40000 }).as("modal");
     cy.get("@modal").find("p").contains("Ваш заказ начали готовить");    
     cy.get("@modal").find('[id^=closeSvg]').click();
   });

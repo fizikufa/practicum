@@ -3,10 +3,12 @@
 
 
 import "@4tw/cypress-drag-drop";
+import { burgerConstrucrorElementClass, burgerIngredientClass } from "../constants";
+
 
 describe("Работает DnD", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:3000");
+    cy.visit('/');
   });
 
   it("Cодержит заголовок Соберите бургер", () => {
@@ -14,15 +16,15 @@ describe("Работает DnD", () => {
   });
 
   it("Cписок ингредиентов содержит булки", () => {
-    cy.get("[class^=burger-ingredients-item_name__]").first().as("firstBun");
+    cy.get(burgerIngredientClass).first().as("firstBun");
     cy.get("@firstBun").contains("булка").should('exist');
-    cy.get("[class^=burger-ingredients-item_name__]").eq(1).as("secondBun");
+    cy.get(burgerIngredientClass).eq(1).as("secondBun");
     cy.get("@secondBun").contains("булка").should('exist');
   });
 
   it("Работает DnD, замена, логин, отправка и подтверждение заказа", () => {
-    cy.get("[class^=burger-ingredients-item_name__]").as("ingredient");
-    cy.get("[class^=burger-constructor_element__list__]").as("elementList");  
+    cy.get(burgerIngredientClass).as("ingredient");
+    cy.get(burgerConstrucrorElementClass).as("elementList");  
 
     cy.get("@ingredient").eq(0).drag("@elementList");
     cy.get("@ingredient").eq(3).drag("@elementList");

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useCallback, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import {CloseIcon} from '@ya.praktikum/react-developer-burger-ui-components'
@@ -14,6 +14,18 @@ const modalRoot = document.getElementById('modals')!;
 
 const Modal:FC<React.PropsWithChildren<IModalProps>> = ({children, onClick,  title}) => {
 
+  const escFunction = useCallback((event:KeyboardEvent) => {
+    if (event.key === "Escape") {
+      onClick();
+    }
+  }, [])
+
+  useEffect(() => {
+    document.addEventListener("keydown", escFunction, false);
+    return () => {
+      document.removeEventListener("keydown", escFunction, false);
+    };
+  }, [escFunction]);
 
   return createPortal(
     <div className={modalStyle.container}>
