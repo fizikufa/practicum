@@ -87,7 +87,7 @@ function BurgerIngredient() {
 
   return (
     <div>
-      <p className={ingredientsStyles.head}>Соберите бургер</p>
+      <h1 className={ingredientsStyles.head}>Соберите бургер</h1>
       <div className={ingredientsStyles.tabs}>
         {tabsData!.map((tab) => (
           <Tab
